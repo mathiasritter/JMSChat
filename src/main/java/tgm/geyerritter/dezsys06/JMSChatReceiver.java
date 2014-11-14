@@ -1,6 +1,4 @@
-
-import org.apache.activemq.ActiveMQConnection;
-import org.apache.activemq.ActiveMQConnectionFactory;
+package tgm.geyerritter.dezsys06;
 
 import javax.jms.Connection;
 import javax.jms.ConnectionFactory;
@@ -8,6 +6,9 @@ import javax.jms.Destination;
 import javax.jms.MessageConsumer;
 import javax.jms.Session;
 import javax.jms.TextMessage;
+
+import org.apache.activemq.ActiveMQConnection;
+import org.apache.activemq.ActiveMQConnectionFactory;
 
 public class JMSChatReceiver {
 
