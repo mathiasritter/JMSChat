@@ -23,6 +23,7 @@ public class ChatSender implements Sender {
 
 	private MessageProducer producer;
 	private Session session;
+	private Session privateSession;
 	private Connection connection;
 
 	public ChatSender(ConnectionFactory connectionFactory, String chatroom) throws JMSException {
@@ -37,6 +38,11 @@ public class ChatSender implements Sender {
 		// Create the producer
 		this.producer = session.createProducer(destination);
 		producer.setDeliveryMode(DeliveryMode.NON_PERSISTENT);
+		
+		/* PRIVATE */
+		
+		//Session initialisieren
+		this.privateSession = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
 
 	}
 
@@ -47,17 +53,17 @@ public class ChatSender implements Sender {
 	public void mail(String fromUser, String toUser, String content) throws JMSException {
 
 		// Zum Senden einer Privatnachricht wird eine Queue erstellt
-		Destination privateDestination = session.createQueue(toUser);
+		Destination privateDestination = privateSession.createQueue(toUser);
 
 		// Mit dieser Queue wird ein neuer Message-Producer erstellt
-		MessageProducer privateProducer = session.createProducer(privateDestination);
+		MessageProducer privateProducer = privateSession.createProducer(privateDestination);
 		privateProducer.setDeliveryMode(DeliveryMode.NON_PERSISTENT);
-
+		
 		// Erstellen eines neuen Nachrichtenobjekts
 		MessageData md = new ChatMessage(fromUser, content);
 
 		// Senden des Nachrichtenobjekts
-		ObjectMessage message = session.createObjectMessage(md);
+		ObjectMessage message = privateSession.createObjectMessage(md);
 		privateProducer.send(message);
 
 	}

@@ -42,7 +42,7 @@ public class Networking implements NetworkController {
 		ConnectionFactory connectionFactory = new ActiveMQConnectionFactory(
 				conf.getUser(), conf.getPassword(), conf.getHostAddress());
 		
-		this.reciever = new ChatReceiver(connectionFactory, conf.getSystemName());
+		this.reciever = new ChatReceiver(connectionFactory, conf.getSystemName(), this.username);
 		this.sender = new ChatSender(connectionFactory, conf.getSystemName());
 
 		new Thread(this.reciever).start();

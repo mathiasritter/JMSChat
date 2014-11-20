@@ -25,7 +25,8 @@ public class Main {
 
 		ConsoleAppender console = new ConsoleAppender(); // create appender
 		// configure the appender
-		String PATTERN = "[%d{HH:mm:ss}] %m%n";
+//		String PATTERN = "[%d{HH:mm:ss}] %m%n";
+		String PATTERN = "%m%n";
 		console.setLayout(new PatternLayout(PATTERN));
 		console.setThreshold(Level.INFO);
 		console.activateOptions();

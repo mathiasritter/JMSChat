@@ -22,15 +22,17 @@ import tgm.geyerritter.dezsys06.data.MessageData;
  */
 public class ChatReceiver implements Receiver {
 
-	private MessageConsumer consumer;
+	
 	private Connection connection;
 	private boolean run;
 	private Session session;
 	private Session privateSession;
+	private MessageConsumer consumer;
+	private MessageConsumer privateConsumer;
 	private static final Logger logger = LogManager
 			.getLogger(ChatReceiver.class);
 	
-	public ChatReceiver(ConnectionFactory connectionFactory, String chatroom) throws JMSException {
+	public ChatReceiver(ConnectionFactory connectionFactory, String chatroom, String username) throws JMSException {
 		
 		this.connection = connectionFactory.createConnection();
 		connection.start();
@@ -42,8 +44,17 @@ public class ChatReceiver implements Receiver {
 		//Create the consumer
 		this.consumer = session.createConsumer(destination);
 		
-		this.run = true;
+		//Private Session initialisieren
+		this.privateSession = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
+		
+		//Destination mit Queue des Users wird erstellt
+		Destination privateDestination = privateSession.createQueue(username);
+						
+		//Consumer mit der oben definierten Destination wird erstellt
+		this.privateConsumer = privateSession.createConsumer(privateDestination);
 
+		this.run = true;
+		
 	}
 
 	@Override
@@ -74,16 +85,7 @@ public class ChatReceiver implements Receiver {
 	 */
 	@Override
 	public void getMails(String username) throws JMSException {
-		//Session initialisieren
-		this.privateSession = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
 		
-		//Destination mit Queue des Users wird erstellt
-		Destination privateDestination = privateSession.createQueue(username);
-		
-		//Consumer mit der oben definierten Destination wird erstellt
-		MessageConsumer privateConsumer = privateSession
-				.createConsumer(privateDestination);
-
 		logger.info("*** Begin of Private Messages ***");
 
 		//Abfragen einer Privatnachricht.
@@ -108,6 +110,10 @@ public class ChatReceiver implements Receiver {
 		}
 
 		logger.info("*** End of Private Messages ***");
+		
+//		this.privateSession.close();
+//		this.privateSession.unsubscribe(username);
+		
 	}
 
 	/**
