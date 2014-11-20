@@ -26,6 +26,7 @@ public class ChatReceiver implements Receiver {
 	private Connection connection;
 	private boolean run;
 	private Session session;
+	private Session privateSession;
 	private static final Logger logger = LogManager
 			.getLogger(ChatReceiver.class);
 	
@@ -73,11 +74,14 @@ public class ChatReceiver implements Receiver {
 	 */
 	@Override
 	public void getMails(String username) throws JMSException {
+		//Session initialisieren
+		this.privateSession = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
+		
 		//Destination mit Queue des Users wird erstellt
-		Destination privateDestination = session.createQueue(username);
+		Destination privateDestination = privateSession.createQueue(username);
 		
 		//Consumer mit der oben definierten Destination wird erstellt
-		MessageConsumer privateConsumer = session
+		MessageConsumer privateConsumer = privateSession
 				.createConsumer(privateDestination);
 
 		logger.info("*** Begin of Private Messages ***");
