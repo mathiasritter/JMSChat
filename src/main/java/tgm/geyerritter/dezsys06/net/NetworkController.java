@@ -2,6 +2,7 @@ package tgm.geyerritter.dezsys06.net;
 
 import java.util.List;
 
+import tgm.geyerritter.dezsys06.data.Configuration;
 import tgm.geyerritter.dezsys06.data.MessageData;
 
 /**
@@ -16,12 +17,14 @@ public interface NetworkController {
 	/**
 	 * Baut eine Verbindung zum ActiveMQ Server in dem ein Rciever und eine Sender
 	 * bereitgestellt werden.
+	 * 
+	 * @param conf Die Einstellungen unter denen der Server zu erreichen ist
 	 */
-	public void init();
+	public void init(Configuration conf);
 	
 	/**
 	 * Sendet eine Nachricht als Topic an den Server damit alle anderen Clients die
-	 * Nachricht empfangen k�nnen.
+	 * Nachricht empfangen koennen.
 	 * 
 	 * @param message Die Nachricht die an alle Clients gesendet werden soll
 	 */

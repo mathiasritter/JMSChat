@@ -1,5 +1,6 @@
 package tgm.geyerritter.dezsys06.data;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -9,7 +10,7 @@ import java.util.Date;
  * @author sgeyer, mritter
  * @version 1.0
  */
-public interface MessageData {
+public interface MessageData extends Serializable {
 
 	/**
 	 * @return Der Username des senders
