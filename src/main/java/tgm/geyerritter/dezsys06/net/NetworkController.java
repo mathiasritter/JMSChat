@@ -1,11 +1,8 @@
 package tgm.geyerritter.dezsys06.net;
 
-import java.util.List;
-
 import javax.jms.JMSException;
 
 import tgm.geyerritter.dezsys06.data.Configuration;
-import tgm.geyerritter.dezsys06.data.MessageData;
 
 /**
  * Diese Klasse dient dazu, die von anderen Klassen bereitgestellten Daten
@@ -47,9 +44,8 @@ public interface NetworkController {
 	public void mail(String reciever, String message);
 	
 	/**
-	 * Laedt alle an den User gerichteten Mails vom Server 
+	 * Laedt alle an den User gerichteten Mails vom Server und printet sie in die Konsole
 	 * 
-	 * @return Alle fuer den User vorgesehenen Mails
 	 */
-	public List<MessageData> getMails();
+	public void getMails();
 }

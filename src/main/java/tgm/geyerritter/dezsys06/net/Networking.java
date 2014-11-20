@@ -1,7 +1,5 @@
 package tgm.geyerritter.dezsys06.net;
 
-import java.util.List;
-
 import javax.jms.Connection;
 import javax.jms.ConnectionFactory;
 import javax.jms.Destination;
@@ -13,7 +11,6 @@ import javax.jms.Session;
 import org.apache.activemq.ActiveMQConnectionFactory;
 
 import tgm.geyerritter.dezsys06.data.Configuration;
-import tgm.geyerritter.dezsys06.data.MessageData;
 import tgm.geyerritter.dezsys06.data.StaticConfiguration;
 
 /**
@@ -41,8 +38,8 @@ public class Networking implements NetworkController {
 		
 		this.username = username;
 		
-		this.reciever = new ChatReceiver();
-		this.sender = new ChatSender(this.session, this.destination, this.producer);
+		this.reciever = new ChatReceiver(this.session, this.consumer);
+		this.sender = new ChatSender(this.session, this.producer);
 	}
 	
 	/**
@@ -99,8 +96,12 @@ public class Networking implements NetworkController {
 	/**
 	 * @see NetworkController#getMails()
 	 */
-	public List<MessageData> getMails() {
-		return null;
+	public void getMails() {
+		try {
+			this.reciever.getMails(this.username);
+		} catch (JMSException e) {
+			e.printStackTrace();
+		}
 	}
 
 }
