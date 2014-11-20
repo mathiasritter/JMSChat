@@ -2,6 +2,13 @@ package tgm.geyerritter.dezsys06.data;
 
 import org.apache.activemq.ActiveMQConnection;
 
+/**
+ * 
+ * Eine implementierung von {@link Configuration} welche die Standarts von ActiveMQ zurueck gibt
+ * 
+ * @author sgeyer, mritter
+ * @version 1.0
+ */
 public class StaticConfiguration implements Configuration {
 
 	@Override

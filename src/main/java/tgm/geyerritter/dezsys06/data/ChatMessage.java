@@ -3,6 +3,13 @@ package tgm.geyerritter.dezsys06.data;
 import java.util.Calendar;
 import java.util.Date;
 
+/**
+ * Implementierung von {@link MessageData}, welche das CreationDate immer zum
+ * Zeitpukt der Erstellung setzt
+ * 
+ * @author Stefan
+ * @version 1.0
+ */
 public class ChatMessage implements MessageData {
 	private static final long serialVersionUID = 8985812390026821173L;
 	

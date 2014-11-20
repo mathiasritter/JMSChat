@@ -1,15 +1,11 @@
 package tgm.geyerritter.dezsys06.net;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import javax.jms.DeliveryMode;
 import javax.jms.Destination;
 import javax.jms.JMSException;
 import javax.jms.MessageProducer;
 import javax.jms.ObjectMessage;
 import javax.jms.Session;
-import javax.jms.TextMessage;
 
 import tgm.geyerritter.dezsys06.data.ChatMessage;
 import tgm.geyerritter.dezsys06.data.MessageData;

@@ -18,12 +18,15 @@ import tgm.geyerritter.dezsys06.data.StaticConfiguration;
 
 /**
  * 
+ * Implementierung von {@link Controller} wobei das Networking von ActiveMQ benutzt wird
  * 
  * @author sgeyer, mritter
  * @version 1.0
  */
 public class Networking implements NetworkController {
-
+	
+	private String username;
+	
 	private Session session;
 	private Connection connection;
 	private MessageConsumer consumer;
@@ -33,8 +36,13 @@ public class Networking implements NetworkController {
 	private Receiver reciever;
 	private Sender sender;
 	
-	public Networking() throws JMSException {
+	public Networking(String username) throws JMSException {
 		init(new StaticConfiguration());
+		
+		this.username = username;
+		
+		this.reciever = new ChatReceiver();
+		this.sender = new ChatSender(this.session, this.destination, this.producer);
 	}
 	
 	/**
@@ -70,14 +78,22 @@ public class Networking implements NetworkController {
 	 * @see NetworkController#broadcast(String)
 	 */
 	public void broadcast(String message) {
-		
+		try {
+			this.sender.broadcast(this.username, message);
+		} catch (JMSException e) {
+			e.printStackTrace();
+		}
 	}
 
 	/**
 	 * @see NetworkController#mail(String, String)
 	 */
 	public void mail(String reciever, String message) {
-
+		try {
+			this.sender.mail(this.username, reciever, message);
+		} catch (JMSException e) {
+			e.printStackTrace();
+		}
 	}
 
 	/**

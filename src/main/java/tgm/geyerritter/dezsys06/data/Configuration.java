@@ -1,7 +1,7 @@
 package tgm.geyerritter.dezsys06.data;
 
 /**
- * Dieses Interface beinhaelt die 
+ * Dieses Interface beinhaelt die Daten die benoetigt wird um sich mit dem Server zu verbinden
  * 
  * @author sgeyer, mritter
  * @version 1.0
