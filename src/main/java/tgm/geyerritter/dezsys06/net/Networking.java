@@ -1,12 +1,7 @@
 package tgm.geyerritter.dezsys06.net;
 
-import javax.jms.Connection;
 import javax.jms.ConnectionFactory;
-import javax.jms.Destination;
 import javax.jms.JMSException;
-import javax.jms.MessageConsumer;
-import javax.jms.MessageProducer;
-import javax.jms.Session;
 
 import org.apache.activemq.ActiveMQConnectionFactory;
 
@@ -23,16 +18,13 @@ public class Networking implements NetworkController {
 	
 	private String username;
 	
-	private Session session;
-	private Connection connection;
-	private MessageConsumer consumer;
-	private MessageProducer producer;
-	private Destination destination;
-	
 	private Receiver reciever;
 	private Sender sender;
 	
 	public Networking(String username, Configuration conf) {
+		
+		this.username = username;
+		
 		try {
 			init(conf);
 		} catch (JMSException e) {
@@ -40,10 +32,9 @@ public class Networking implements NetworkController {
 			e.printStackTrace();
 		}
 		
-		this.username = username;
 		
-		this.reciever = new ChatReceiver(this.session, this.consumer);
-		this.sender = new ChatSender(this.session, this.producer);
+//		this.reciever = new ChatReceiver(this.session, this.consumer);
+//		this.sender = new ChatSender(this.session, this.producer);
 	}
 	
 	/**
@@ -53,19 +44,24 @@ public class Networking implements NetworkController {
 		
 		ConnectionFactory connectionFactory = new ActiveMQConnectionFactory(
 				conf.getUser(), conf.getPassword(), conf.getHostAddress());
+		
+		this.reciever = new ChatReceiver(connectionFactory, conf.getSystemName());
+		this.sender = new ChatSender(connectionFactory, conf.getSystemName());
 
-		connection = connectionFactory.createConnection();
-		connection.start();
-
-		// Create the session
-		session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
-		destination = session.createTopic(conf.getSystemName());
-
-		// Create the consumer
-		consumer = session.createConsumer(destination);
-
-		// Create a producer
-		producer = session.createProducer(destination);
+		new Thread(this.reciever).start();
+		
+//		connection = connectionFactory.createConnection();
+//		connection.start();
+//
+//		// Create the session
+//		session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
+//		destination = session.createTopic(conf.getSystemName());
+//
+//		// Create the consumer
+//		consumer = session.createConsumer(destination);
+//
+//		// Create a producer
+//		producer = session.createProducer(destination);
 	}
 	
 	/**
@@ -73,10 +69,8 @@ public class Networking implements NetworkController {
 	 */
 	public void halt() {
 		try {
-			this.consumer.close();
-			this.session.close();
+			this.reciever.stop();
 			
-			this.connection.close();
 		} catch (JMSException e) {
 			e.printStackTrace();
 		}

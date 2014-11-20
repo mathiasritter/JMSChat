@@ -1,11 +1,14 @@
 package tgm.geyerritter.dezsys06.net;
 
+import javax.jms.Connection;
+import javax.jms.ConnectionFactory;
 import javax.jms.DeliveryMode;
 import javax.jms.Destination;
 import javax.jms.JMSException;
 import javax.jms.MessageProducer;
 import javax.jms.ObjectMessage;
 import javax.jms.Session;
+import javax.jms.TextMessage;
 
 import tgm.geyerritter.dezsys06.data.ChatMessage;
 import tgm.geyerritter.dezsys06.data.MessageData;
@@ -21,17 +24,34 @@ public class ChatSender implements Sender {
 
 	private MessageProducer producer;
 	private Session session;
+	private Connection connection;
 
-	/**
-	 * Initialisieren der Attribute im Konstruktor
-	 * 
-	 * @param session Aufgebaute Session zum Broker
-	 * @param producer Producer fuer ein Topic
-	 */
-	public ChatSender(Session session, MessageProducer producer) {
+//	/**
+//	 * Initialisieren der Attribute im Konstruktor
+//	 * 
+//	 * @param session Aufgebaute Session zum Broker
+//	 * @param producer Producer fuer ein Topic
+//	 */
+//	public ChatSender(Session session, MessageProducer producer) {
+//
+//		this.session = session;
+//		this.producer = producer;
+//
+//	}
+	
+	
+	public ChatSender(ConnectionFactory connectionFactory, String chatroom) throws JMSException {
+		
+		this.connection = connectionFactory.createConnection();
+		connection.start();
 
-		this.session = session;
-		this.producer = producer;
+		// Create the session
+		this.session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
+		Destination destination = session.createTopic(chatroom);
+		
+		//Create the producer
+		this.producer = session.createProducer(destination);
+		producer.setDeliveryMode(DeliveryMode.NON_PERSISTENT);
 
 	}
 
@@ -55,6 +75,7 @@ public class ChatSender implements Sender {
 
 		//Senden des Nachrichtenobjekts
 		ObjectMessage message = session.createObjectMessage(md);
+//		TextMessage message = session.createTextMessage(md.getContent());
 		producer.send(message);
 
 	}
@@ -72,6 +93,14 @@ public class ChatSender implements Sender {
 		ObjectMessage message = session.createObjectMessage(md);
 		producer.send(message);
 
+	}
+
+	@Override
+	public void stop() throws JMSException {
+		this.producer.close();
+		this.session.close();
+		this.connection.close();
+		
 	}
 
 }

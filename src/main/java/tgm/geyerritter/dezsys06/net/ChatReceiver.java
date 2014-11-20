@@ -1,10 +1,13 @@
 package tgm.geyerritter.dezsys06.net;
 
+import javax.jms.Connection;
+import javax.jms.ConnectionFactory;
 import javax.jms.Destination;
 import javax.jms.JMSException;
 import javax.jms.MessageConsumer;
 import javax.jms.ObjectMessage;
 import javax.jms.Session;
+import javax.jms.TextMessage;
 
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
@@ -21,14 +24,31 @@ import tgm.geyerritter.dezsys06.data.MessageData;
 public class ChatReceiver implements Receiver {
 
 	private MessageConsumer consumer;
+	private Connection connection;
 	private boolean run;
 	private Session session;
 	private static final Logger logger = LogManager
 			.getLogger(ChatReceiver.class);
 
-	public ChatReceiver(Session session, MessageConsumer consumer) {
-		this.session = session;
-		this.consumer = consumer;
+//	public ChatReceiver(Session session, MessageConsumer consumer) {
+//		this.session = session;
+//		this.consumer = consumer;
+//		this.run = true;
+//
+//	}
+	
+	public ChatReceiver(ConnectionFactory connectionFactory, String chatroom) throws JMSException {
+		
+		this.connection = connectionFactory.createConnection();
+		connection.start();
+
+		// Create the session
+		this.session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
+		Destination destination = session.createTopic(chatroom);
+		
+		//Create the consumer
+		this.consumer = session.createConsumer(destination);
+		
 		this.run = true;
 
 	}
@@ -40,7 +60,7 @@ public class ChatReceiver implements Receiver {
 		while (run) {
 			
 			try {
-
+				
 				//Empfangen einer Chatmessage (blockierende Methode)
 				ObjectMessage message = (ObjectMessage) consumer.receive();
 
@@ -48,6 +68,9 @@ public class ChatReceiver implements Receiver {
 
 					//Schreiben der Chatmessages in die Konsole
 					MessageData md = (MessageData) message.getObject();
+					
+					System.out.println(md.getContent());
+					
 					logger.info("[" + md.getCreationDate() + "] "
 							+ md.getSender() + ": " + md.getContent());
 
@@ -104,8 +127,11 @@ public class ChatReceiver implements Receiver {
 	 * @see Receiver#stop
 	 */
 	@Override
-	public void stop() {
+	public void stop() throws JMSException {
 		this.run = false;
+		this.consumer.close();
+		this.session.close();
+		this.connection.close();
 	}
 
 }

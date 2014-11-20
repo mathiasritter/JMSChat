@@ -37,5 +37,7 @@ public interface Sender {
 	 */
 	public void mail(String fromUser, String toUser, String content)
 			throws JMSException;
+	
+	public void stop() throws JMSException;
 
 }

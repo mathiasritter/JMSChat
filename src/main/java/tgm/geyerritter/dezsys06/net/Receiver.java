@@ -23,6 +23,6 @@ public interface Receiver extends Runnable {
 	 * Stoppt den Receiver, sodass dieser keine weiteren Nachrichten mehr
 	 * erhaelt.
 	 */
-	public void stop();
+	public void stop() throws JMSException;
 
 }
