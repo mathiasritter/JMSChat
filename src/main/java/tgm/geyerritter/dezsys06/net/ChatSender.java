@@ -8,7 +8,6 @@ import javax.jms.JMSException;
 import javax.jms.MessageProducer;
 import javax.jms.ObjectMessage;
 import javax.jms.Session;
-import javax.jms.TextMessage;
 
 import tgm.geyerritter.dezsys06.data.ChatMessage;
 import tgm.geyerritter.dezsys06.data.MessageData;
@@ -75,8 +74,7 @@ public class ChatSender implements Sender {
 
 		//Senden des Nachrichtenobjekts
 		ObjectMessage message = session.createObjectMessage(md);
-//		TextMessage message = session.createTextMessage(md.getContent());
-		producer.send(message);
+		privateProducer.send(message);
 
 	}
 

@@ -7,7 +7,6 @@ import javax.jms.JMSException;
 import javax.jms.MessageConsumer;
 import javax.jms.ObjectMessage;
 import javax.jms.Session;
-import javax.jms.TextMessage;
 
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
@@ -29,13 +28,6 @@ public class ChatReceiver implements Receiver {
 	private Session session;
 	private static final Logger logger = LogManager
 			.getLogger(ChatReceiver.class);
-
-//	public ChatReceiver(Session session, MessageConsumer consumer) {
-//		this.session = session;
-//		this.consumer = consumer;
-//		this.run = true;
-//
-//	}
 	
 	public ChatReceiver(ConnectionFactory connectionFactory, String chatroom) throws JMSException {
 		
@@ -69,8 +61,6 @@ public class ChatReceiver implements Receiver {
 					//Schreiben der Chatmessages in die Konsole
 					MessageData md = (MessageData) message.getObject();
 					
-					System.out.println(md.getContent());
-					
 					logger.info("[" + md.getCreationDate() + "] "
 							+ md.getSender() + ": " + md.getContent());
 
@@ -103,6 +93,8 @@ public class ChatReceiver implements Receiver {
 		//Durch receiveNoWait wird nicht blockiert.
 		//Es wird eine Message vom Broker empfangen, falls eine vorhanden ist. Ansonsten ist Message null.
 		ObjectMessage message = (ObjectMessage) privateConsumer.receiveNoWait();
+		
+		System.out.println(message == null);
 
 		//Solange Message nicht null ist, diese auslesen und weitere empfangen.
 		while (message != null) {
