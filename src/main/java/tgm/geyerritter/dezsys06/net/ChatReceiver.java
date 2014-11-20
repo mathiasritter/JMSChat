@@ -47,17 +47,12 @@ public class ChatReceiver implements Receiver {
 
 	@Override
 	public void run() {
-		
 		//Empfangen von Chatmessages
 		while (run) {
-			
 			try {
-				
 				//Empfangen einer Chatmessage (blockierende Methode)
 				ObjectMessage message = (ObjectMessage) consumer.receive();
-
 				if (message != null) {
-
 					//Schreiben der Chatmessages in die Konsole
 					MessageData md = (MessageData) message.getObject();
 					
@@ -68,11 +63,9 @@ public class ChatReceiver implements Receiver {
 					message.acknowledge();
 				}
 			} catch (JMSException e) {
-
 				e.printStackTrace();
 			}
 		}
-
 	}
 
 	/**
@@ -94,8 +87,6 @@ public class ChatReceiver implements Receiver {
 		//Es wird eine Message vom Broker empfangen, falls eine vorhanden ist. Ansonsten ist Message null.
 		ObjectMessage message = (ObjectMessage) privateConsumer.receiveNoWait();
 		
-		System.out.println(message == null);
-
 		//Solange Message nicht null ist, diese auslesen und weitere empfangen.
 		while (message != null) {
 
