@@ -1,6 +1,6 @@
 package tgm.geyerritter.dezsys06.net;
 
-import tgm.geyerritter.dezsys06.data.MessageData;
+import javax.jms.JMSException;
 
 /**
  * Der Receiver empfaengt Nachrichten einer MoM.
@@ -10,13 +10,19 @@ import tgm.geyerritter.dezsys06.data.MessageData;
  * @version 1.0
  */
 public interface Receiver extends Runnable {
-	
+
 	/**
 	 * Diese Methode fragt das private Postfach eines angegebenen Users ab.
 	 * 
-	 * @return Inhalt einer Nachricht
-	 * @param username Der Username des Users, dessen Postfach abgefragt werden soll.
+	 * @param username
+	 *            Der Username des Users, dessen Postfach abgefragt werden soll.
 	 */
-	public MessageData getMails(String username);
+	public void getMails(String username) throws JMSException;
+
+	/**
+	 * Stoppt den Receiver, sodass dieser keine weiteren Nachrichten mehr
+	 * erhaelt.
+	 */
+	public void stop();
 
 }
