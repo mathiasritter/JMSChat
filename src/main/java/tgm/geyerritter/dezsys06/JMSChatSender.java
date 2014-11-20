@@ -28,8 +28,7 @@ public class JMSChatSender {
 
 		try {
 
-			ConnectionFactory connectionFactory = new ActiveMQConnectionFactory(
-					user, password, url);
+			ConnectionFactory connectionFactory = new ActiveMQConnectionFactory(user, password, url);
 			connection = connectionFactory.createConnection();
 			connection.start();
 
@@ -42,9 +41,7 @@ public class JMSChatSender {
 			producer.setDeliveryMode(DeliveryMode.NON_PERSISTENT);
 
 			// Create the message
-			TextMessage message = session
-					.createTextMessage("MaxMustermann [ xxx.xxx.xxx.xxx ]: This message was sent at (ms): "
-							+ System.currentTimeMillis());
+			TextMessage message = session.createTextMessage("MaxMustermann [ xxx.xxx.xxx.xxx ]: This message was sent at (ms): " + System.currentTimeMillis());
 			producer.send(message);
 			System.out.println(message.getText());
 			connection.stop();
