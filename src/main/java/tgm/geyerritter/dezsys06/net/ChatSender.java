@@ -67,7 +67,7 @@ public class ChatSender implements Sender {
 		//Mit dieser Queue wird ein neuer Message-Producer erstellt
 		MessageProducer privateProducer = session
 				.createProducer(privateDestination);
-		privateProducer.setDeliveryMode(DeliveryMode.PERSISTENT);
+		privateProducer.setDeliveryMode(DeliveryMode.NON_PERSISTENT);
 
 		//Erstellen eines neuen Nachrichtenobjekts
 		MessageData md = new ChatMessage(fromUser, content);
