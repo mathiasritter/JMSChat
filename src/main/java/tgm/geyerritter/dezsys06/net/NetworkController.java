@@ -2,6 +2,8 @@ package tgm.geyerritter.dezsys06.net;
 
 import java.util.List;
 
+import javax.jms.JMSException;
+
 import tgm.geyerritter.dezsys06.data.Configuration;
 import tgm.geyerritter.dezsys06.data.MessageData;
 
@@ -20,7 +22,12 @@ public interface NetworkController {
 	 * 
 	 * @param conf Die Einstellungen unter denen der Server zu erreichen ist
 	 */
-	public void init(Configuration conf);
+	public void init(Configuration conf) throws JMSException;
+	
+	/**
+	 * Stopt die Komunikation mit dem Server und beendet die vom Server abhaengigen Transfere
+	 */
+	public void halt() throws JMSException;
 	
 	/**
 	 * Sendet eine Nachricht als Topic an den Server damit alle anderen Clients die

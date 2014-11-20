@@ -5,16 +5,23 @@ import java.util.List;
 import javax.jms.Connection;
 import javax.jms.ConnectionFactory;
 import javax.jms.Destination;
+import javax.jms.JMSException;
 import javax.jms.MessageConsumer;
 import javax.jms.MessageProducer;
 import javax.jms.Session;
-import javax.jms.TextMessage;
 
 import org.apache.activemq.ActiveMQConnectionFactory;
 
 import tgm.geyerritter.dezsys06.data.Configuration;
 import tgm.geyerritter.dezsys06.data.MessageData;
+import tgm.geyerritter.dezsys06.data.StaticConfiguration;
 
+/**
+ * 
+ * 
+ * @author sgeyer, mritter
+ * @version 1.0
+ */
 public class Networking implements NetworkController {
 
 	private Session session;
@@ -23,9 +30,17 @@ public class Networking implements NetworkController {
 	private MessageProducer producer;
 	private Destination destination;
 	
-	public void init(Configuration conf) {
-		try {
-
+	private Receiver reciever;
+	private Sender sender;
+	
+	public Networking() throws JMSException {
+		init(new StaticConfiguration());
+	}
+	
+	/**
+	 * @see NetworkController#init(Configuration)
+	 */
+	public void init(Configuration conf) throws JMSException {
 			ConnectionFactory connectionFactory = new ActiveMQConnectionFactory(conf.getUser(), conf.getPassword(), conf.getHostAddress());
 			connection = connectionFactory.createConnection();
 			connection.start();
@@ -37,45 +52,37 @@ public class Networking implements NetworkController {
 			// Create the consumer
 			consumer = session.createConsumer(destination);
 
-			// Start receiving
-			TextMessage message = (TextMessage) consumer.receive();
-			if (message != null) {
-				System.out.println("Message received: " + message.getText());
-				message.acknowledge();
-			}
-			connection.stop();
-
-		} catch (Exception e) {
-
-			System.out.println("[MessageConsumer] Caught: " + e);
-			e.printStackTrace();
-
-		} finally {
-
-			try {
-				consumer.close();
-			} catch (Exception e) {
-			}
-			try {
-				session.close();
-			} catch (Exception e) {
-			}
-			try {
-				connection.close();
-			} catch (Exception e) {
-			}
-
-		}
+			// Create a producer
+			producer = session.createProducer(destination);
+	}
+	
+	/**
+	 * @see NetworkController#halt()
+	 */
+	public void halt() throws JMSException {
+		this.consumer.close();
+		this.session.close();
+		
+		this.connection.close();
 	}
 
+	/**
+	 * @see NetworkController#broadcast(String)
+	 */
 	public void broadcast(String message) {
 		
 	}
 
+	/**
+	 * @see NetworkController#mail(String, String)
+	 */
 	public void mail(String reciever, String message) {
 
 	}
 
+	/**
+	 * @see NetworkController#getMails()
+	 */
 	public List<MessageData> getMails() {
 		return null;
 	}
