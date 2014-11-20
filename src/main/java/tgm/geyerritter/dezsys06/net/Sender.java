@@ -1,4 +1,4 @@
-package tgm.geyerritter.dezsys06;
+package tgm.geyerritter.dezsys06.net;
 
 /**
  * Der Sender sendet Nachrichten an eine MoM

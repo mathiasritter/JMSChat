@@ -1,4 +1,6 @@
-package tgm.geyerritter.dezsys06;
+package tgm.geyerritter.dezsys06.net;
+
+import tgm.geyerritter.dezsys06.data.MessageData;
 
 /**
  * Der Receiver empfaengt Nachrichten einer MoM.

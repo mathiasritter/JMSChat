@@ -1,4 +1,4 @@
-package tgm.geyerritter.dezsys06;
+package tgm.geyerritter.dezsys06.data;
 
 import java.util.Date;
 

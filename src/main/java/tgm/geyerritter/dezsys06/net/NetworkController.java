@@ -1,6 +1,8 @@
-package tgm.geyerritter.dezsys06;
+package tgm.geyerritter.dezsys06.net;
 
 import java.util.List;
+
+import tgm.geyerritter.dezsys06.data.MessageData;
 
 /**
  * Diese Klasse dient dazu, die von anderen Klassen bereitgestellten Daten
@@ -19,7 +21,7 @@ public interface NetworkController {
 	
 	/**
 	 * Sendet eine Nachricht als Topic an den Server damit alle anderen Clients die
-	 * Nachricht empfangen können.
+	 * Nachricht empfangen kï¿½nnen.
 	 * 
 	 * @param message Die Nachricht die an alle Clients gesendet werden soll
 	 */
