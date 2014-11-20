@@ -36,6 +36,7 @@ public class Networking implements NetworkController {
 		try {
 			init(conf);
 		} catch (JMSException e) {
+			System.out.println("EKZEPTSCHON beim Verbinden zum Broker (falsche Adresse)");
 			e.printStackTrace();
 		}
 		
@@ -49,24 +50,22 @@ public class Networking implements NetworkController {
 	 * @see NetworkController#init(Configuration)
 	 */
 	public void init(Configuration conf) throws JMSException {
-			ConnectionFactory connectionFactory = new ActiveMQConnectionFactory(conf.getUser(), conf.getPassword(), conf.getHostAddress());
-			
-			try {
-				connection = connectionFactory.createConnection();
-				connection.start();
-				
-				// Create the session
-				session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
-				destination = session.createTopic(conf.getSystemName());
+		
+		ConnectionFactory connectionFactory = new ActiveMQConnectionFactory(
+				conf.getUser(), conf.getPassword(), conf.getHostAddress());
 
-				// Create the consumer
-				consumer = session.createConsumer(destination);
+		connection = connectionFactory.createConnection();
+		connection.start();
 
-				// Create a producer
-				producer = session.createProducer(destination);
-			} catch (JMSException e) {
-				System.out.println("EKZEPTSCHON beim Verbinden zum Broker (falsche Adresse)");
-			}
+		// Create the session
+		session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
+		destination = session.createTopic(conf.getSystemName());
+
+		// Create the consumer
+		consumer = session.createConsumer(destination);
+
+		// Create a producer
+		producer = session.createProducer(destination);
 	}
 	
 	/**
