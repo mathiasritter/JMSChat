@@ -67,11 +67,15 @@ public class Networking implements NetworkController {
 	/**
 	 * @see NetworkController#halt()
 	 */
-	public void halt() throws JMSException {
-		this.consumer.close();
-		this.session.close();
-		
-		this.connection.close();
+	public void halt() {
+		try {
+			this.consumer.close();
+			this.session.close();
+			
+			this.connection.close();
+		} catch (JMSException e) {
+			e.printStackTrace();
+		}
 	}
 
 	/**

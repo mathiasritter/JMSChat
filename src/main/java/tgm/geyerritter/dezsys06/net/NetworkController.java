@@ -24,7 +24,7 @@ public interface NetworkController {
 	/**
 	 * Stopt die Komunikation mit dem Server und beendet die vom Server abhaengigen Transfere
 	 */
-	public void halt() throws JMSException;
+	public void halt();
 	
 	/**
 	 * Sendet eine Nachricht als Topic an den Server damit alle anderen Clients die
