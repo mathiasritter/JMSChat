@@ -69,11 +69,14 @@ public class Networking implements NetworkController {
 	 */
 	public void halt() {
 		try {
+			this.sender.stop();
 			this.reciever.stop();
 			
 		} catch (JMSException e) {
 			e.printStackTrace();
 		}
+		
+		System.exit(0);
 	}
 
 	/**
