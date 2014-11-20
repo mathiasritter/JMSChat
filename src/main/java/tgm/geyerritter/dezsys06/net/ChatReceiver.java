@@ -44,6 +44,9 @@ public class ChatReceiver implements Receiver {
 		//Create the consumer
 		this.consumer = session.createConsumer(destination);
 		
+		
+		/* Privatchat */
+		
 		//Private Session initialisieren
 		this.privateSession = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
 		

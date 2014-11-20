@@ -6,6 +6,7 @@ import org.apache.log4j.Level;
 import org.apache.log4j.PatternLayout;
 
 import tgm.geyerritter.dezsys06.io.ChatConsoleReader;
+import tgm.geyerritter.dezsys06.io.ConsoleReader;
 
 /**
  * Main-Klasse mit Main-Methode zum Start des Chats
@@ -14,6 +15,8 @@ import tgm.geyerritter.dezsys06.io.ChatConsoleReader;
  * @version sgeyer
  */
 public class Main {
+	
+	public static ConsoleReader READER;
 
 	/**
 	 * Main-Methode zum Start des Chats
@@ -33,8 +36,13 @@ public class Main {
 		// add appender to any Logger (here is root)
 		BasicConfigurator.configure(console);
 
+		
+		READER = new ChatConsoleReader();
+		
 		// Chat in einem neuen Thread starten
-		new Thread(new ChatConsoleReader()).start();
+		new Thread(READER).start();
+
+		
 	}
 
 }

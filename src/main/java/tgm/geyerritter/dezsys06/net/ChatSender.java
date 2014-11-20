@@ -39,9 +39,10 @@ public class ChatSender implements Sender {
 		this.producer = session.createProducer(destination);
 		producer.setDeliveryMode(DeliveryMode.NON_PERSISTENT);
 		
-		/* PRIVATE */
 		
-		//Session initialisieren
+		/* Privatchat */
+		
+		//Private Session initialisieren
 		this.privateSession = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
 
 	}
