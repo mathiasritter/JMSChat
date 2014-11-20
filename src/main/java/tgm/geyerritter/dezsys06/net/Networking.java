@@ -50,18 +50,23 @@ public class Networking implements NetworkController {
 	 */
 	public void init(Configuration conf) throws JMSException {
 			ConnectionFactory connectionFactory = new ActiveMQConnectionFactory(conf.getUser(), conf.getPassword(), conf.getHostAddress());
-			connection = connectionFactory.createConnection();
-			connection.start();
+			
+			try {
+				connection = connectionFactory.createConnection();
+				connection.start();
+				
+				// Create the session
+				session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
+				destination = session.createTopic(conf.getSystemName());
 
-			// Create the session
-			session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
-			destination = session.createTopic(conf.getSystemName());
+				// Create the consumer
+				consumer = session.createConsumer(destination);
 
-			// Create the consumer
-			consumer = session.createConsumer(destination);
-
-			// Create a producer
-			producer = session.createProducer(destination);
+				// Create a producer
+				producer = session.createProducer(destination);
+			} catch (JMSException e) {
+				System.out.println("EKZEPTSCHON beim Verbinden zum Broker (falsche Adresse)");
+			}
 	}
 	
 	/**

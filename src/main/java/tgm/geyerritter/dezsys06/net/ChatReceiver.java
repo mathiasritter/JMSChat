@@ -11,6 +11,13 @@ import org.apache.log4j.Logger;
 
 import tgm.geyerritter.dezsys06.data.MessageData;
 
+/**
+ * Implementierung von {@link Receiver}
+ * 
+ * @author mritter
+ * @autor sgeyer
+ * @version 1.0
+ */
 public class ChatReceiver implements Receiver {
 
 	private MessageConsumer consumer;
@@ -28,17 +35,23 @@ public class ChatReceiver implements Receiver {
 
 	@Override
 	public void run() {
+		
+		//Empfangen von Chatmessages
 		while (run) {
+			
 			try {
 
+				//Empfangen einer Chatmessage (blockierende Methode)
 				ObjectMessage message = (ObjectMessage) consumer.receive();
 
 				if (message != null) {
 
+					//Schreiben der Chatmessages in die Konsole
 					MessageData md = (MessageData) message.getObject();
 					logger.info("[" + md.getCreationDate() + "] "
 							+ md.getSender() + ": " + md.getContent());
 
+					//Empfang bestaetigen
 					message.acknowledge();
 				}
 			} catch (JMSException e) {
@@ -49,31 +62,47 @@ public class ChatReceiver implements Receiver {
 
 	}
 
+	/**
+	 * @see Receiver#getMails(String)
+	 */
 	@Override
 	public void getMails(String username) throws JMSException {
+		//Destination mit Queue des Users wird erstellt
 		Destination privateDestination = session.createQueue(username);
+		
+		//Consumer mit der oben definierten Destination wird erstellt
 		MessageConsumer privateConsumer = session
 				.createConsumer(privateDestination);
 
-		logger.info("Begin of Private Messages");
+		logger.info("*** Begin of Private Messages ***");
 
+		//Abfragen einer Privatnachricht.
+		//Durch receiveNoWait wird nicht blockiert.
+		//Es wird eine Message vom Broker empfangen, falls eine vorhanden ist. Ansonsten ist Message null.
 		ObjectMessage message = (ObjectMessage) privateConsumer.receiveNoWait();
 
+		//Solange Message nicht null ist, diese auslesen und weitere empfangen.
 		while (message != null) {
 
+			//Chatmessage auslesen und in die Konsole schreiben
 			MessageData md = (MessageData) message.getObject();
 
 			logger.info("[" + md.getCreationDate() + "] " + md.getSender()
 					+ ": " + md.getContent());
 
+			//Empfang bestaetigen
 			message.acknowledge();
 
+			//Versuch, weitere Message zu empfangen
 			message = (ObjectMessage) privateConsumer.receiveNoWait();
 		}
 
-		logger.info("End of Private Messages");
+		logger.info("*** End of Private Messages ***");
 	}
 
+	/**
+	 * @see Receiver#stop
+	 */
 	@Override
 	public void stop() {
 		this.run = false;
