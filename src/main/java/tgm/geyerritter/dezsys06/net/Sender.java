@@ -35,9 +35,8 @@ public interface Sender {
 	 * @param content
 	 *            Inhalt einer zu sendenen Privat-Nachricht
 	 */
-	public void mail(String fromUser, String toUser, String content)
-			throws JMSException;
-	
+	public void mail(String fromUser, String toUser, String content) throws JMSException;
+
 	public void stop() throws JMSException;
 
 }

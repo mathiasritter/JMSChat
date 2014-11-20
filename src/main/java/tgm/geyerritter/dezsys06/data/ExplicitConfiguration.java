@@ -1,5 +1,12 @@
 package tgm.geyerritter.dezsys06.data;
 
+/**
+ * 
+ * Bei dieser Konfiguration koennen alle Werte selbst gesetzt werden
+ * 
+ * @author sgeyer, mritter
+ * @version 1.0
+ */
 public class ExplicitConfiguration implements Configuration {
 
 	private String username;

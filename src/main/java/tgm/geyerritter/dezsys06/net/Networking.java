@@ -32,9 +32,6 @@ public class Networking implements NetworkController {
 			e.printStackTrace();
 		}
 		
-		
-//		this.reciever = new ChatReceiver(this.session, this.consumer);
-//		this.sender = new ChatSender(this.session, this.producer);
 	}
 	
 	/**
@@ -49,19 +46,6 @@ public class Networking implements NetworkController {
 		this.sender = new ChatSender(connectionFactory, conf.getSystemName());
 
 		new Thread(this.reciever).start();
-		
-//		connection = connectionFactory.createConnection();
-//		connection.start();
-//
-//		// Create the session
-//		session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
-//		destination = session.createTopic(conf.getSystemName());
-//
-//		// Create the consumer
-//		consumer = session.createConsumer(destination);
-//
-//		// Create a producer
-//		producer = session.createProducer(destination);
 	}
 	
 	/**
