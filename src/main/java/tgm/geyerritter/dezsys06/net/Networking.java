@@ -11,7 +11,6 @@ import javax.jms.Session;
 import org.apache.activemq.ActiveMQConnectionFactory;
 
 import tgm.geyerritter.dezsys06.data.Configuration;
-import tgm.geyerritter.dezsys06.data.StaticConfiguration;
 
 /**
  * 
@@ -33,8 +32,12 @@ public class Networking implements NetworkController {
 	private Receiver reciever;
 	private Sender sender;
 	
-	public Networking(String username) throws JMSException {
-		init(new StaticConfiguration());
+	public Networking(String username, Configuration conf) {
+		try {
+			init(conf);
+		} catch (JMSException e) {
+			e.printStackTrace();
+		}
 		
 		this.username = username;
 		
