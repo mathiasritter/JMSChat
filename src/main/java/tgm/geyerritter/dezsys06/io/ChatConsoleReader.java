@@ -28,6 +28,7 @@ public class ChatConsoleReader implements ConsoleReader {
 	private NetworkController controller;
 
 	public void run() {
+		
 		logger.info("Chat initialized. For more information type 'help'");
 		Scanner scanner = new Scanner(System.in);
 
@@ -48,6 +49,7 @@ public class ChatConsoleReader implements ConsoleReader {
 	}
 
 	public void proccessCommand(String commandLabel, String[] args) {
+		
 		// Das Label ist immer das erste "Wort", der Rest sind die Argumente
 		if (commandLabel.equalsIgnoreCase("vsdbchat")) {
 			if (args.length > 2) {
