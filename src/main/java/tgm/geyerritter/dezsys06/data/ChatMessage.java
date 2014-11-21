@@ -7,7 +7,7 @@ import java.util.Date;
  * Implementierung von {@link MessageData}, welche das CreationDate immer zum
  * Zeitpukt der Erstellung setzt
  * 
- * @author Stefan
+ * @author sgeyer, mritter
  * @version 1.0
  */
 public class ChatMessage implements MessageData {
