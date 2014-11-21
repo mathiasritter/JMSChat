@@ -59,7 +59,7 @@ public class ChatConsoleReader implements ConsoleReader {
 				String user = args[1];
 				String chatroom = args[2];
 
-				String noport_con = "Added default port to ip because no port was given. Connecting...";
+				String noport_con = "Added default port (61616) to ip because no port was given. Connecting...";
 				
 				if (ip.lastIndexOf('/') > -1) {
 					if (!ip.substring(ip.lastIndexOf('/'), ip.length()).contains(":")) {
@@ -93,7 +93,7 @@ public class ChatConsoleReader implements ConsoleReader {
 				String msg = StringUtils.join(Arrays.asList(args), " ");
 
 				this.controller.mail(args[0], msg);
-				logger.info("Mail send!");
+				logger.info("Mail sent!");
 			} else {
 				logger.info("Not enough arguments. Correct usage: mail <benutzername> <nachricht>");
 			}
