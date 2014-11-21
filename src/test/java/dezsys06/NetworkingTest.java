@@ -18,6 +18,9 @@ public class NetworkingTest {
 	public void testNetworking1() {
 		NetworkController n = new Networking(null, new StaticConfiguration());
 	}
-
 	
+	@Test(expected = NullPointerException.class)
+	public void testNetworking2() {
+		NetworkController n = new Networking("", null);
+	}
 }
