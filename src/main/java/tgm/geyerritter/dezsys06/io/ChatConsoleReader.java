@@ -31,7 +31,7 @@ public class ChatConsoleReader implements ConsoleReader {
 
 	public void run() {
 
-		logger.info("Chat initialized. For more information type 'help'");
+		logger.info("Please connect to message broker. For more information type 'help'");
 		Scanner scanner = new Scanner(System.in);
 
 		// Warte auf Benutzeingaben
@@ -59,6 +59,20 @@ public class ChatConsoleReader implements ConsoleReader {
 				String user = args[1];
 				String chatroom = args[2];
 
+				String noport_con = "Added default port to ip because no port was given. Connecting...";
+				
+				if (ip.lastIndexOf('/') > -1) {
+					if (!ip.substring(ip.lastIndexOf('/'), ip.length()).contains(":")) {
+						ip += ":61616";
+						logger.info(noport_con);
+					}
+				} else {
+					if (!ip.contains(":")) {
+						ip += ":61616";
+						logger.info(noport_con);
+					}
+				}
+
 				// Protokolle angeben falls es der User nicht getan hat
 				if (!ip.startsWith("failover://tcp://"))
 					ip = "failover://tcp://" + ip;
@@ -66,6 +80,7 @@ public class ChatConsoleReader implements ConsoleReader {
 				Configuration conf = new ExplicitConfiguration(ActiveMQConnection.DEFAULT_USER, ActiveMQConnection.DEFAULT_PASSWORD, ip, chatroom);
 				try {
 					this.controller = new Networking(user, conf);
+					logger.info("Connection established.");
 				} catch (JMSException e) {
 					logger.error("Error while connecting to Broker");
 				}
@@ -75,12 +90,10 @@ public class ChatConsoleReader implements ConsoleReader {
 			}
 		} else if (commandLabel.equalsIgnoreCase("mail")) {
 			if (args.length > 1) {
-				String msg = "";
-
-				for (int i = 1; i < args.length; i++)
-					msg += args[i] + " ";
+				String msg = StringUtils.join(Arrays.asList(args), " ");
 
 				this.controller.mail(args[0], msg);
+				logger.info("Mail send!");
 			} else {
 				logger.info("Not enough arguments. Correct usage: mail <benutzername> <nachricht>");
 			}
@@ -95,6 +108,7 @@ public class ChatConsoleReader implements ConsoleReader {
 			} else {
 				logger.info("Enter \"mail <receiver> <message>\" to send a mail to someone");
 				logger.info("Enter \"mailbox\" to fetch all your mails");
+				logger.info("Enter \"exit\" to exit");
 				logger.info("Just write anything to broadcast");
 			}
 		} else {
