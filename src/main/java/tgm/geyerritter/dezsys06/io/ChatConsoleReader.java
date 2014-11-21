@@ -30,11 +30,10 @@ public class ChatConsoleReader implements ConsoleReader {
 	private NetworkController controller;
 
 	public void run() {
-		
+
 		logger.info("Chat initialized. For more information type 'help'");
 		Scanner scanner = new Scanner(System.in);
 
-		
 		// Warte auf Benutzeingaben
 		while (scanner.hasNextLine()) {
 			String line = scanner.nextLine();
@@ -52,7 +51,7 @@ public class ChatConsoleReader implements ConsoleReader {
 	}
 
 	public void proccessCommand(String commandLabel, String[] args) {
-		
+
 		// Das Label ist immer das erste "Wort", der Rest sind die Argumente
 		if (commandLabel.equalsIgnoreCase("vsdbchat")) {
 			if (args.length > 2) {
@@ -91,7 +90,13 @@ public class ChatConsoleReader implements ConsoleReader {
 			logger.info("Closing connection...");
 			this.controller.halt();
 		} else if (commandLabel.equalsIgnoreCase("help")) {
-			logger.info("Enter \"vsdbchat <ip_message_broker> <benutzername> <chatroom>\" to connect to a server");
+			if (this.controller == null) {
+				logger.info("Enter \"vsdbchat <ip_message_broker> <benutzername> <chatroom>\" to connect to a server");
+			} else {
+				logger.info("Enter \"mail <receiver> <message>\" to send a mail to someone");
+				logger.info("Enter \"mailbox\" to fetch all your mails");
+				logger.info("Just write anything to broadcast");
+			}
 		} else {
 			if (this.controller != null) {
 				List<String> text = new ArrayList<String>();

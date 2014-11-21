@@ -123,8 +123,10 @@ public class TestChatConsoleReader {
 	
 	@Test
 	public void testHelp2() {
+		String[] args = {};
 		new Thread(chat).start();
 		systemInMock.provideText("vsdbchat 127.0.0.1:61616 testuser testchat\n");
+		chat.proccessCommand("help", args);
 		assertEquals(initialized, testAppender.getLog().get(0).getMessage());
 	}
 	
