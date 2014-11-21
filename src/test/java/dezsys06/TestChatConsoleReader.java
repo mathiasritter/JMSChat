@@ -15,15 +15,13 @@ import tgm.geyerritter.dezsys06.io.ChatConsoleReader;
 public class TestChatConsoleReader {
 
 	private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
-	private static ChatConsoleReader chat;
+	private ChatConsoleReader chat;
 	
 	
 	@Before
 	public void setUpStreams() {
 	    System.setOut(new PrintStream(outContent));
-	    String[] args = {};
-	    Main.main(args);
-	    Main.READER;
+	    this.chat = new ChatConsoleReader();
 	}
 	
 	@Test
