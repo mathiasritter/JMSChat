@@ -23,7 +23,6 @@ public class TestChatConsoleReader {
 	    System.setOut(new PrintStream(outContent));
 	    String[] args = {};
 	    Main.main(args);
-	    Main.READER;
 	}
 	
 	@Test
