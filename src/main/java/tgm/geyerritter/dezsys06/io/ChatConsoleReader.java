@@ -32,9 +32,10 @@ public class ChatConsoleReader implements ConsoleReader {
 		logger.info("Chat initialized. For more information type 'help'");
 		Scanner scanner = new Scanner(System.in);
 
-		String line;
+		
 		// Warte auf Benutzeingaben
-		while ((line = scanner.nextLine()) != null) {
+		while (scanner.hasNextLine()) {
+			String line = scanner.nextLine();
 			String label = "";
 			String[] args = line.split(" ");
 			if (args.length > 0) {
