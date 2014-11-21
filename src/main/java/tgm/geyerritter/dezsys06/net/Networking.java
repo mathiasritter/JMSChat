@@ -28,6 +28,7 @@ public class Networking implements NetworkController {
 		try {
 			init(conf);
 		} catch (JMSException e) {
+			// Powered by Ritter
 			System.out.println("EKZEPTSCHON beim Verbinden zum Broker (falsche Adresse)");
 			e.printStackTrace();
 		}

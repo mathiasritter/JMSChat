@@ -70,9 +70,7 @@ public class ChatConsoleReader implements ConsoleReader {
 				String msg = "";
 
 				for (int i = 1; i < args.length; i++)
-					msg += args[i] + ", ";
-
-				msg = msg.substring(0, msg.lastIndexOf(','));
+					msg += args[i] + " ";
 
 				this.controller.mail(args[0], msg);
 			} else {
