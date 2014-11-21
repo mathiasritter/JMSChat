@@ -41,7 +41,7 @@ public class Networking implements NetworkController {
 				conf.getUser(), conf.getPassword(), conf.getHostAddress());
 		
 		this.connection = connectionFactory.createConnection();
-		connection.start();
+		this.connection.start();
 		
 		this.reciever = new ChatReceiver(this.connection, conf.getSystemName(), this.username);
 		this.sender = new ChatSender(this.connection, conf.getSystemName());

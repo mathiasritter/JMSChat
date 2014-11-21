@@ -110,8 +110,6 @@ public class ChatReceiver implements Receiver {
 
 		logger.info("*** End of Private Messages ***");
 		
-//		this.privateSession.close();
-//		this.privateSession.unsubscribe(username);
 		
 	}
 

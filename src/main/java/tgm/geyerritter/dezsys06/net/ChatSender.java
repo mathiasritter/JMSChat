@@ -33,7 +33,7 @@ public class ChatSender implements Sender {
 
 		// Create the producer
 		this.producer = session.createProducer(destination);
-		producer.setDeliveryMode(DeliveryMode.NON_PERSISTENT);
+		this.producer.setDeliveryMode(DeliveryMode.NON_PERSISTENT);
 		
 		
 		/* Privatchat */
