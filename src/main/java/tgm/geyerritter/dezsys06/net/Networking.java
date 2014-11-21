@@ -10,7 +10,7 @@ import tgm.geyerritter.dezsys06.data.Configuration;
 
 /**
  * 
- * Implementierung von {@link Controller} wobei das Networking von ActiveMQ benutzt wird
+ * Implementierung von {@link NetworkController} wobei das Networking von ActiveMQ benutzt wird
  * 
  * @author sgeyer, mritter
  * @version 1.0

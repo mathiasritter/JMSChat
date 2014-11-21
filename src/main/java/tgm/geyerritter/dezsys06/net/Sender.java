@@ -20,6 +20,10 @@ public interface Sender {
 	 *            Inhalt einer zu sendenen Nachricht
 	 * @param fromUser
 	 *            Username des Absenders
+	 * 
+	 * @throws JMSException
+	 *             Wird geworfen wenn eineFehler bei der Kommunikation mit dem
+	 *             Server auftritt.
 	 */
 	public void broadcast(String fromUser, String content) throws JMSException;
 
@@ -34,9 +38,19 @@ public interface Sender {
 	 *            Empfaenger-Username
 	 * @param content
 	 *            Inhalt einer zu sendenen Privat-Nachricht
+	 * @throws JMSException
+	 *             Wird geworfen wenn eineFehler bei der Kommunikation mit dem
+	 *             Server auftritt.
 	 */
 	public void mail(String fromUser, String toUser, String content) throws JMSException;
 
+	/**
+	 * Stoppt den Sender, sodass dieser keine weiteren Nachrichten mehr sendet.
+	 * 
+	 * @throws JMSException
+	 *             Wird geworfen wenn eineFehler bei der Kommunikation mit dem
+	 *             Server auftritt.
+	 */
 	public void stop() throws JMSException;
 
 }

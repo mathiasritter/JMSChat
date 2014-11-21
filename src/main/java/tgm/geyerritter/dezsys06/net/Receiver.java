@@ -16,12 +16,16 @@ public interface Receiver extends Runnable {
 	 * 
 	 * @param username
 	 *            Der Username des Users, dessen Postfach abgefragt werden soll.
+	 *            
+	 * @throws JMSException Wird geworfen wenn eineFehler bei der Kommunikation mit dem Server auftritt.
 	 */
 	public void getMails(String username) throws JMSException;
 
 	/**
 	 * Stoppt den Receiver, sodass dieser keine weiteren Nachrichten mehr
 	 * erhaelt.
+	 * 
+	 * @throws JMSException Wird geworfen wenn eineFehler bei der Kommunikation mit dem Server auftritt.
 	 */
 	public void stop() throws JMSException;
 

@@ -18,6 +18,7 @@ public interface NetworkController {
 	 * bereitgestellt werden.
 	 * 
 	 * @param conf Die Einstellungen unter denen der Server zu erreichen ist
+	 * @throws JMSException Wird geworfen wenn eineFehler bei der Kommunikation mit dem Server auftritt.
 	 */
 	public void init(Configuration conf) throws JMSException;
 	

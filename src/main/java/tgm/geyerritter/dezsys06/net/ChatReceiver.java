@@ -1,7 +1,6 @@
 package tgm.geyerritter.dezsys06.net;
 
 import javax.jms.Connection;
-import javax.jms.ConnectionFactory;
 import javax.jms.Destination;
 import javax.jms.JMSException;
 import javax.jms.MessageConsumer;
@@ -17,7 +16,7 @@ import tgm.geyerritter.dezsys06.data.MessageData;
  * Implementierung von {@link Receiver}
  * 
  * @author mritter
- * @autor sgeyer
+ * @author sgeyer
  * @version 1.0
  */
 public class ChatReceiver implements Receiver {
