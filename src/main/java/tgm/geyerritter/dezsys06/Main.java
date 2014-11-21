@@ -18,7 +18,6 @@ public class Main {
 	 */
 	public static void main(String[] args) {
 		
-		
 		// Chat in einem neuen Thread starten
 		new Thread(new ChatConsoleReader()).start();
 
