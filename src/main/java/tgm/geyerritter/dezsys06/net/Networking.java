@@ -1,5 +1,6 @@
 package tgm.geyerritter.dezsys06.net;
 
+import javax.jms.Connection;
 import javax.jms.ConnectionFactory;
 import javax.jms.JMSException;
 
@@ -20,6 +21,8 @@ public class Networking implements NetworkController {
 	
 	private Receiver reciever;
 	private Sender sender;
+
+	private Connection connection;
 	
 	public Networking(String username, Configuration conf) throws JMSException {
 		
@@ -37,8 +40,11 @@ public class Networking implements NetworkController {
 		ConnectionFactory connectionFactory = new ActiveMQConnectionFactory(
 				conf.getUser(), conf.getPassword(), conf.getHostAddress());
 		
-		this.reciever = new ChatReceiver(connectionFactory, conf.getSystemName(), this.username);
-		this.sender = new ChatSender(connectionFactory, conf.getSystemName());
+		this.connection = connectionFactory.createConnection();
+		connection.start();
+		
+		this.reciever = new ChatReceiver(this.connection, conf.getSystemName(), this.username);
+		this.sender = new ChatSender(this.connection, conf.getSystemName());
 
 		new Thread(this.reciever).start();
 	}
@@ -50,6 +56,7 @@ public class Networking implements NetworkController {
 		try {
 			this.sender.stop();
 			this.reciever.stop();
+			this.connection.close();
 			
 		} catch (JMSException e) {
 			e.printStackTrace();

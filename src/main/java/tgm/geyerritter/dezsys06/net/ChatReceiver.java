@@ -23,7 +23,6 @@ import tgm.geyerritter.dezsys06.data.MessageData;
 public class ChatReceiver implements Receiver {
 
 	
-	private Connection connection;
 	private boolean run;
 	private Session session;
 	private Session privateSession;
@@ -32,11 +31,8 @@ public class ChatReceiver implements Receiver {
 	private static final Logger logger = LogManager
 			.getLogger(ChatReceiver.class);
 	
-	public ChatReceiver(ConnectionFactory connectionFactory, String chatroom, String username) throws JMSException {
+	public ChatReceiver(Connection connection, String chatroom, String username) throws JMSException {
 		
-		this.connection = connectionFactory.createConnection();
-		connection.start();
-
 		// Create the session
 		this.session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
 		Destination destination = session.createTopic(chatroom);
@@ -127,7 +123,6 @@ public class ChatReceiver implements Receiver {
 		this.run = false;
 		this.consumer.close();
 		this.session.close();
-		this.connection.close();
 	}
 
 }

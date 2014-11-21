@@ -24,12 +24,8 @@ public class ChatSender implements Sender {
 	private MessageProducer producer;
 	private Session session;
 	private Session privateSession;
-	private Connection connection;
 
-	public ChatSender(ConnectionFactory connectionFactory, String chatroom) throws JMSException {
-
-		this.connection = connectionFactory.createConnection();
-		connection.start();
+	public ChatSender(Connection connection, String chatroom) throws JMSException {
 
 		// Create the session
 		this.session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
@@ -88,7 +84,6 @@ public class ChatSender implements Sender {
 	public void stop() throws JMSException {
 		this.producer.close();
 		this.session.close();
-		this.connection.close();
 
 	}
 
