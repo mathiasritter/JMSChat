@@ -21,17 +21,11 @@ public class Networking implements NetworkController {
 	private Receiver reciever;
 	private Sender sender;
 	
-	public Networking(String username, Configuration conf) {
+	public Networking(String username, Configuration conf) throws JMSException {
 		
 		this.username = username;
 		
-		try {
-			init(conf);
-		} catch (JMSException e) {
-			// Powered by Ritter
-			System.out.println("EKZEPTSCHON beim Verbinden zum Broker (falsche Adresse)");
-			e.printStackTrace();
-		}
+		init(conf);
 		
 	}
 	

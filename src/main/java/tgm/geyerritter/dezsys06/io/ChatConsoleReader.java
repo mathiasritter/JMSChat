@@ -5,6 +5,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
+import javax.jms.JMSException;
+
 import org.apache.activemq.ActiveMQConnection;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.LogManager;
@@ -63,7 +65,11 @@ public class ChatConsoleReader implements ConsoleReader {
 					ip = "failover://tcp://" + ip;
 
 				Configuration conf = new ExplicitConfiguration(ActiveMQConnection.DEFAULT_USER, ActiveMQConnection.DEFAULT_PASSWORD, ip, chatroom);
-				this.controller = new Networking(user, conf);
+				try {
+					this.controller = new Networking(user, conf);
+				} catch (JMSException e) {
+					logger.error("Error while connecting to Broker");
+				}
 
 			} else {
 				logger.info("Not enough arguments. Correct usage: vsdbchat <ip_message_broker> <benutzername> <chatroom>");
