@@ -9,6 +9,7 @@ import org.apache.log4j.Logger;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
+import org.junit.contrib.java.lang.system.Assertion;
 import org.junit.contrib.java.lang.system.ExpectedSystemExit;
 
 import tgm.geyerritter.dezsys06.data.ExplicitConfiguration;
@@ -20,6 +21,7 @@ public class NetworkingTest {
 
 	private TestAppender testAppender;
 	private final int timeout = 100;
+	private final String closing = "Transport (tcp://127.0.0.1:61616) failed, reason:  java.io.EOFException, not attempting to automatically reconnect";
 	
 	 @Rule
 	 public final ExpectedSystemExit exit = ExpectedSystemExit.none();
@@ -61,6 +63,11 @@ public class NetworkingTest {
 	public void testNetworking4() throws JMSException {
 		NetworkController n = new Networking("Dondi", new ExplicitConfiguration(ActiveMQConnection.DEFAULT_USER, ActiveMQConnection.DEFAULT_PASSWORD, ActiveMQConnection.DEFAULT_BROKER_URL, "Chat"));
 		exit.expectSystemExit();
+		exit.checkAssertionAfterwards(new Assertion() {
+		      public void checkAssertion() {
+		        assertEquals(closing, testAppender.getLog().get(0).getMessage());
+		      }
+		});
 		n.halt();
 	}
 }

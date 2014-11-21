@@ -109,4 +109,8 @@ public class ChatConsoleReader implements ConsoleReader {
 		}
 	}
 
+	public void setController(NetworkController controller) {
+		this.controller = controller;
+	}
+
 }

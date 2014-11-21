@@ -2,13 +2,21 @@ package dezsys06;
 
 import static org.junit.Assert.assertEquals;
 
+import javax.jms.JMSException;
+
+import org.apache.activemq.ActiveMQConnection;
 import org.apache.log4j.Logger;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
+import org.junit.contrib.java.lang.system.Assertion;
+import org.junit.contrib.java.lang.system.ExpectedSystemExit;
 import org.junit.contrib.java.lang.system.TextFromStandardInputStream;
 
+import tgm.geyerritter.dezsys06.data.Configuration;
+import tgm.geyerritter.dezsys06.data.ExplicitConfiguration;
 import tgm.geyerritter.dezsys06.io.ChatConsoleReader;
+import tgm.geyerritter.dezsys06.net.Networking;
 
 public class TestChatConsoleReader {
 
@@ -20,15 +28,18 @@ public class TestChatConsoleReader {
 	private final String notEnoughArgumentsMail = "Not enough arguments. Correct usage: mail <benutzername> <nachricht>";
 	private final String privateBegin = "*** Begin of Private Messages ***";
 	private final String privateEnd = "*** End of Private Messages ***";
-	private final String exit = "Closing connection...";
 	private final String help = "Enter \"vsdbchat <ip_message_broker> <benutzername> <chatroom>\" to connect to a server";
+	private final String help2 = "Enter \"mail <receiver> <message>\" to send a mail to someone";
 	private final String initialized = "Chat initialized. For more information type 'help'";
+	private final String closing = "Closing connection...";
 	private final String[] Connection = {"127.0.0.1:61616", "testuser", "testchat"};
 	private final String[] Connection2 = {"failover://tcp://127.0.0.1:61616", "testuser", "testchat"};
+	private final String[] emptyArgs = {};
+	private final int timeout = 100;
+
 	
 	@Rule
-	public final TextFromStandardInputStream systemInMock = TextFromStandardInputStream.emptyStandardInputStream();
-	
+	public final ExpectedSystemExit exit = ExpectedSystemExit.none();
 	
 	@Before
 	public void init() {
@@ -39,8 +50,7 @@ public class TestChatConsoleReader {
 
 	@Test
 	public void testNotConnected1() {
-		String[] args = {};
-		chat.proccessCommand("Bla", args);
+		chat.proccessCommand("Bla", emptyArgs);
 		assertEquals(notConnected, testAppender.getLog().get(0).getMessage());
 	}
 	
@@ -85,8 +95,7 @@ public class TestChatConsoleReader {
 	@Test
 	public void testWrongMail1() {
 		chat.proccessCommand("vsdbchat", Connection);
-		String[] args = {};
-		chat.proccessCommand("Mail", args);
+		chat.proccessCommand("Mail", emptyArgs);
 		assertEquals(notEnoughArgumentsMail, testAppender.getLog().get(0).getMessage());
 	}
 	
@@ -100,34 +109,54 @@ public class TestChatConsoleReader {
 	@Test
 	public void testMail2() {
 		chat.proccessCommand("vsdbchat", Connection);
-		String[] args = {};
-		chat.proccessCommand("Mailbox", args);
+		chat.proccessCommand("Mailbox", emptyArgs);
 		assertEquals(privateBegin, testAppender.getLog().get(0).getMessage());
 	}
 	
 	@Test
 	public void testMail3() {
 		chat.proccessCommand("vsdbchat", Connection);
-		String[] args = {};
-		chat.proccessCommand("Mailbox", args);
+		chat.proccessCommand("Mailbox", emptyArgs);
 		assertEquals(privateEnd, testAppender.getLog().get(1).getMessage());
 	}
 	
 	@Test
 	public void testHelp1() {
-		String[] args = {};
-		chat.proccessCommand("help", args);
+		chat.proccessCommand("help", emptyArgs);
 		assertEquals(help, testAppender.getLog().get(0).getMessage());
 	}
 	
 	
 	@Test
-	public void testHelp2() {
-		String[] args = {};
-		new Thread(chat).start();
-		systemInMock.provideText("vsdbchat 127.0.0.1:61616 testuser testchat\n");
-		chat.proccessCommand("help", args);
-		assertEquals(initialized, testAppender.getLog().get(0).getMessage());
+	public void testHelp2() throws JMSException {
+		Configuration conf = new ExplicitConfiguration(ActiveMQConnection.DEFAULT_USER, ActiveMQConnection.DEFAULT_PASSWORD, "failover://tcp://127.0.0.1:61616", "testchat");
+		chat.setController(new Networking("testuser", conf));
+		chat.proccessCommand("help", emptyArgs);
+		assertEquals(help2, testAppender.getLog().get(0).getMessage());
+	}
+	
+	@Test
+	public void testBroadcast1() throws JMSException, InterruptedException {
+		Configuration conf = new ExplicitConfiguration(ActiveMQConnection.DEFAULT_USER, ActiveMQConnection.DEFAULT_PASSWORD, "failover://tcp://127.0.0.1:61616", "testchat");
+		chat.setController(new Networking("testuser", conf));
+		chat.proccessCommand("Message1", emptyArgs);
+		Thread.sleep(timeout);
+		String receive = (String) testAppender.getLog().get(0).getMessage();
+		receive = receive.substring(receive.lastIndexOf(' ')+1, receive.lastIndexOf('1'));
+		assertEquals("Message", receive);
+	}
+	
+	@Test
+	public void testExit() throws JMSException, InterruptedException {
+		Configuration conf = new ExplicitConfiguration(ActiveMQConnection.DEFAULT_USER, ActiveMQConnection.DEFAULT_PASSWORD, "failover://tcp://127.0.0.1:61616", "testchat");
+		chat.setController(new Networking("testuser", conf));
+		exit.expectSystemExit();
+		exit.checkAssertionAfterwards(new Assertion() {
+		      public void checkAssertion() {
+		        assertEquals(closing, testAppender.getLog().get(0).getMessage());
+		      }
+		});
+		chat.proccessCommand("exit", emptyArgs);
 	}
 	
 
