@@ -100,8 +100,8 @@ public class ChatConsoleReader implements ConsoleReader {
 		} else {
 			if (this.controller != null) {
 				List<String> text = new ArrayList<String>();
-				text.addAll(Arrays.asList(args));
 				text.add(commandLabel);
+				text.addAll(Arrays.asList(args));
 				this.controller.broadcast(StringUtils.join(text, " "));
 			} else {
 				logger.info("You need to connect to a server before you can chat");

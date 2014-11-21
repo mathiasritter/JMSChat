@@ -1,5 +1,8 @@
 package tgm.geyerritter.dezsys06.net;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+
 import javax.jms.Connection;
 import javax.jms.Destination;
 import javax.jms.JMSException;
@@ -66,8 +69,10 @@ public class ChatReceiver implements Receiver {
 					//Schreiben der Chatmessages in die Konsole
 					MessageData md = (MessageData) message.getObject();
 					
-					logger.info("[" + md.getCreationDate() + "] "
-							+ md.getSender() + ": " + md.getContent());
+					String timeStamp = new SimpleDateFormat("[dd.MM.yyyy - HH:mm:ss]").format(md.getCreationDate());
+					
+					logger.info(timeStamp + " " + md.getSender()
+							+ ": " + md.getContent());
 
 					//Empfang bestaetigen
 					message.acknowledge();
@@ -97,9 +102,11 @@ public class ChatReceiver implements Receiver {
 			//Chatmessage auslesen und in die Konsole schreiben
 			MessageData md = (MessageData) message.getObject();
 
-			logger.info("[" + md.getCreationDate() + "] " + md.getSender()
+			String timeStamp = new SimpleDateFormat("[dd.MM.yyyy - HH:mm:ss]").format(md.getCreationDate());
+			
+			logger.info(timeStamp + " " + md.getSender()
 					+ ": " + md.getContent());
-
+			
 			//Empfang bestaetigen
 			message.acknowledge();
 
