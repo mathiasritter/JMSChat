@@ -113,7 +113,10 @@ public class ChatConsoleReader implements ConsoleReader {
 		// Kommando "exit"
 		} else if (commandLabel.equalsIgnoreCase("exit")) {
 			logger.info("Closing connection...");
-			this.controller.halt();
+			if (this.controller != null)
+				this.controller.halt();
+			else
+				System.exit(0);
 		// Kommando "help"
 		} else if (commandLabel.equalsIgnoreCase("help")) {
 			// Kommandos fuer den derzeitigen stand der Verbindung ausgeben
