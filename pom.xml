@@ -51,6 +51,8 @@
 				<directory>files/</directory>
 				<includes>
 					<include>**/*.pdf</include>
+					<include>**/*.asta</include>
+					<include>log.txt</include>
 				</includes>
 			</resource>
 		</resources>
