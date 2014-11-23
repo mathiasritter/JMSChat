@@ -4,7 +4,7 @@ import org.apache.activemq.ActiveMQConnection;
 
 /**
  * 
- * Eine implementierung von {@link Configuration} welche die Standarts von ActiveMQ zurueck gibt
+ * Eine implementierung von {@link Configuration} welche die Standards von ActiveMQ zurueck gibt
  * 
  * @author sgeyer, mritter
  * @version 1.0

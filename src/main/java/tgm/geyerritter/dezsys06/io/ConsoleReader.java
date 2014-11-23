@@ -10,7 +10,7 @@ package tgm.geyerritter.dezsys06.io;
 public interface ConsoleReader extends Runnable {
 	
 	/**
-	 * Diese Methode verarbeitet ein Kommando das vom User ein gegeben wurde
+	 * Diese Methode verarbeitet ein Kommando das vom User eingegeben wurde
 	 * 
 	 * @param comandLabel Der Name des Kommandos
 	 * @param args Argumente falls vom User angegeben

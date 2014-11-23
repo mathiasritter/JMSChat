@@ -40,12 +40,15 @@ public class Networking implements NetworkController {
 		ConnectionFactory connectionFactory = new ActiveMQConnectionFactory(
 				conf.getUser(), conf.getPassword(), conf.getHostAddress());
 		
+		//Connection aufbauen
 		this.connection = connectionFactory.createConnection();
 		this.connection.start();
 		
+		//Receiver und Sender initialisieren
 		this.reciever = new ChatReceiver(this.connection, conf.getSystemName(), this.username);
 		this.sender = new ChatSender(this.connection, conf.getSystemName());
 
+		//Receiver-Thread starten
 		new Thread(this.reciever).start();
 	}
 	

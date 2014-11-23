@@ -1,7 +1,6 @@
 package tgm.geyerritter.dezsys06.net;
 
 import javax.jms.Connection;
-import javax.jms.ConnectionFactory;
 import javax.jms.DeliveryMode;
 import javax.jms.Destination;
 import javax.jms.JMSException;
@@ -25,13 +24,20 @@ public class ChatSender implements Sender {
 	private Session session;
 	private Session privateSession;
 
+	/**
+	 * Initialisierung des Senders
+	 * 
+	 * @param connection bereits aufgebaute Connection zum Message-Broker
+	 * @param chatroom Chatraum, in dem sich der User befindet
+	 * @throws JMSException Fehler waehrend der Kommunikation
+	 */
 	public ChatSender(Connection connection, String chatroom) throws JMSException {
 
-		// Create the session
+		// Session erstellen
 		this.session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
 		Destination destination = session.createTopic(chatroom);
 
-		// Create the producer
+		// Producer erstellen zum Senden der Nachrichten
 		this.producer = session.createProducer(destination);
 		this.producer.setDeliveryMode(DeliveryMode.NON_PERSISTENT);
 		
@@ -80,6 +86,9 @@ public class ChatSender implements Sender {
 
 	}
 
+	/**
+	 * @see Sender#stop()
+	 */
 	@Override
 	public void stop() throws JMSException {
 		this.producer.close();

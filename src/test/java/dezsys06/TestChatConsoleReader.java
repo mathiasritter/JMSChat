@@ -11,13 +11,19 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.contrib.java.lang.system.Assertion;
 import org.junit.contrib.java.lang.system.ExpectedSystemExit;
-import org.junit.contrib.java.lang.system.TextFromStandardInputStream;
 
 import tgm.geyerritter.dezsys06.data.Configuration;
 import tgm.geyerritter.dezsys06.data.ExplicitConfiguration;
 import tgm.geyerritter.dezsys06.io.ChatConsoleReader;
 import tgm.geyerritter.dezsys06.net.Networking;
 
+/**
+ * Testen der Klasse {@link ChatConsoleReader}, welche die Eingabe des Users ueberprueft.
+ * 
+ * @author mritter
+ * @author sgeyer
+ * @version 1.0
+ */
 public class TestChatConsoleReader {
 
 	private ChatConsoleReader chat;
@@ -25,13 +31,13 @@ public class TestChatConsoleReader {
 
 	private final String notConnected = "You need to connect to a server before you can chat";
 	private final String notEnoughArguments = "Not enough arguments. Correct usage: vsdbchat <ip_message_broker> <benutzername> <chatroom>";
-	private final String notEnoughArgumentsMail = "Not enough arguments. Correct usage: mail <benutzername> <nachricht>";
 	private final String privateBegin = "*** Begin of Private Messages ***";
 	private final String privateEnd = "*** End of Private Messages ***";
 	private final String help = "Enter \"vsdbchat <ip_message_broker> <benutzername> <chatroom>\" to connect to a server";
 	private final String help2 = "Enter \"mail <receiver> <message>\" to send a mail to someone";
-	private final String initialized = "Chat initialized. For more information type 'help'";
+	private final String initialized = "Please connect to message broker. For more information type 'help'";
 	private final String closing = "Closing connection...";
+	private final String defaultPort = "Added default port (61616) to ip because no port was given. Connecting...";
 	private final String[] Connection = {"127.0.0.1:61616", "testuser", "testchat"};
 	private final String[] Connection2 = {"failover://tcp://127.0.0.1:61616", "testuser", "testchat"};
 	private final String[] emptyArgs = {};
@@ -41,6 +47,9 @@ public class TestChatConsoleReader {
 	@Rule
 	public final ExpectedSystemExit exit = ExpectedSystemExit.none();
 	
+	/**
+	 * Initialisieren des ChatConsoleReaders und des Appenders
+	 */
 	@Before
 	public void init() {
 		this.chat = new ChatConsoleReader();
@@ -48,12 +57,18 @@ public class TestChatConsoleReader {
 		Logger.getRootLogger().addAppender(testAppender);
 	}
 
+	/**
+	 * Testen, ob eine falsche Eingabe vor dem Verbinden korrekt verarbeitet wird
+	 */
 	@Test
 	public void testNotConnected1() {
 		chat.proccessCommand("Bla", emptyArgs);
 		assertEquals(notConnected, testAppender.getLog().get(0).getMessage());
 	}
 	
+	/**
+	 * Testen, ob eine falsche Eingabe vor dem Verbinden korrekt verarbeitet wird
+	 */
 	@Test
 	public void testNotConnected2() {
 		String[] args = {"Hallo", "Freunde"};
@@ -61,6 +76,9 @@ public class TestChatConsoleReader {
 		assertEquals(notConnected, testAppender.getLog().get(0).getMessage());
 	}
 	
+	/**
+	 * Testen, ob eine falsche Eingabe zum Verbinden korrekt verarbeitet wird
+	 */
 	@Test
 	public void testWrongConnection1() {
 		String[] wrongConnection = {"Hallo"};
@@ -68,6 +86,9 @@ public class TestChatConsoleReader {
 		assertEquals(notEnoughArguments, testAppender.getLog().get(0).getMessage());
 	}
 	
+	/**
+	 * Testen, ob eine falsche Eingabe zum Verbinden korrekt verarbeitet wird
+	 */
 	@Test
 	public void testWrongConnection2() {
 		String[] wrongConnection = {"Hallo", "Freunde"};
@@ -75,16 +96,25 @@ public class TestChatConsoleReader {
 		assertEquals(notEnoughArguments, testAppender.getLog().get(0).getMessage());
 	}
 	
+	/**
+	 * Testen, ob eine korrekte Eingabe zu einem Verbindungsaufbau fuehrt
+	 */
 	@Test
 	public void testRightConnection1() {
 		chat.proccessCommand("vsdbchat", Connection);
 	}
 
+	/**
+	 * Testen, ob eine korrekte Eingabe zu einem Verbindungsaufbau fuehrt
+	 */
 	@Test
 	public void testRightConnection2() {
 		chat.proccessCommand("vsdbchat", Connection2);
 	}
 	
+	/**
+	 * Testen, ob nach dem Starten des Programmes die korrekte Aufforderung zum Verbinden ausgegeben wird
+	 */
 	@Test
 	public void testInitialized1() {
 		new Thread(chat).start();
@@ -92,13 +122,42 @@ public class TestChatConsoleReader {
 		assertEquals(initialized, testAppender.getLog().get(0).getMessage());
 	}
 	
+	/**
+	 * Testen, ob nach dem Starten des Programmes eine Verbindung ohne Angabe des Ports aufgebaut werden kann
+	 */
 	@Test
-	public void testWrongMail1() {
-		chat.proccessCommand("vsdbchat", Connection);
-		chat.proccessCommand("Mail", emptyArgs);
-		assertEquals(notEnoughArgumentsMail, testAppender.getLog().get(0).getMessage());
+	public void testInitialized2() {
+		new Thread(chat).start();
+		String[] args = { "127.0.0.1", "testuser", "testchat" };
+		chat.proccessCommand("vsdbchat", args);
+		assertEquals(defaultPort, testAppender.getLog().get(0).getMessage());
 	}
 	
+	/**
+	 * Testen, ob nach dem Starten des Programmes eine Verbindung mit Angabe des Ports aufgebaut werden kann
+	 */
+	@Test
+	public void testInitialized3() {
+		new Thread(chat).start();
+		String[] args = { "127.0.0.1:61616", "testuser", "testchat" };
+		chat.proccessCommand("vsdbchat", args);
+		assertEquals(initialized, testAppender.getLog().get(0).getMessage());
+	}
+	
+	/**
+	 * Testen, ob nach dem Starten des Programmes eine Verbindung ohne Angabe des Ports aufgebaut werden kann
+	 */
+	@Test
+	public void testInitialized4() {
+		new Thread(chat).start();
+		String[] args = { "failover://tcp://127.0.0.1", "testuser", "testchat" };
+		chat.proccessCommand("vsdbchat", args);
+		assertEquals(defaultPort, testAppender.getLog().get(0).getMessage());
+	}
+	
+	/**
+	 * Testen, ob eine mail mit korrekter Eingabe gesendet werden kann
+	 */
 	@Test
 	public void testMail1() {
 		chat.proccessCommand("vsdbchat", Connection);
@@ -106,27 +165,38 @@ public class TestChatConsoleReader {
 		chat.proccessCommand("Mail", args);
 	}
 	
+	/**
+	 * Testen, ob die Mailbox abgerufen werden kann
+	 */
 	@Test
 	public void testMail2() {
 		chat.proccessCommand("vsdbchat", Connection);
 		chat.proccessCommand("Mailbox", emptyArgs);
-		assertEquals(privateBegin, testAppender.getLog().get(0).getMessage());
+		assertEquals(privateBegin, testAppender.getLog().get(1).getMessage());
 	}
 	
+	/**
+	 * Testen, ob die Mailbox abgerufen werden kann
+	 */
 	@Test
 	public void testMail3() {
 		chat.proccessCommand("vsdbchat", Connection);
 		chat.proccessCommand("Mailbox", emptyArgs);
-		assertEquals(privateEnd, testAppender.getLog().get(1).getMessage());
+		assertEquals(privateEnd, testAppender.getLog().get(2).getMessage());
 	}
 	
+	/**
+	 * Testen, ob nach Eingabe von "Help" eine Hilfe angezeigt wird
+	 */
 	@Test
 	public void testHelp1() {
 		chat.proccessCommand("help", emptyArgs);
 		assertEquals(help, testAppender.getLog().get(0).getMessage());
 	}
 	
-	
+	/**
+	 * Testen, ob nach Eingabe von "Help" nach dem verbindungsaufbau eine Hilfe angezeigt wird
+	 */
 	@Test
 	public void testHelp2() throws JMSException {
 		Configuration conf = new ExplicitConfiguration(ActiveMQConnection.DEFAULT_USER, ActiveMQConnection.DEFAULT_PASSWORD, "failover://tcp://127.0.0.1:61616", "testchat");
@@ -135,6 +205,9 @@ public class TestChatConsoleReader {
 		assertEquals(help2, testAppender.getLog().get(0).getMessage());
 	}
 	
+	/**
+	 * Testen, ob eine Nachricht an alle korrekt gesendet wird
+	 */
 	@Test
 	public void testBroadcast1() throws JMSException, InterruptedException {
 		Configuration conf = new ExplicitConfiguration(ActiveMQConnection.DEFAULT_USER, ActiveMQConnection.DEFAULT_PASSWORD, "failover://tcp://127.0.0.1:61616", "testchat");
@@ -146,6 +219,9 @@ public class TestChatConsoleReader {
 		assertEquals("Message", receive);
 	}
 	
+	/**
+	 * Testen, ob nach Eingabe von "exit" die Verbindung geschlossen wird
+	 */
 	@Test
 	public void testExit() throws JMSException, InterruptedException {
 		Configuration conf = new ExplicitConfiguration(ActiveMQConnection.DEFAULT_USER, ActiveMQConnection.DEFAULT_PASSWORD, "failover://tcp://127.0.0.1:61616", "testchat");
@@ -158,6 +234,7 @@ public class TestChatConsoleReader {
 		});
 		chat.proccessCommand("exit", emptyArgs);
 	}
+	
 	
 
 }

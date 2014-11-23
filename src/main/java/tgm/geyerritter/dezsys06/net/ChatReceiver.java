@@ -1,7 +1,6 @@
 package tgm.geyerritter.dezsys06.net;
 
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 
 import javax.jms.Connection;
 import javax.jms.Destination;
@@ -33,13 +32,21 @@ public class ChatReceiver implements Receiver {
 	private static final Logger logger = LogManager
 			.getLogger(ChatReceiver.class);
 	
+	/**
+	 * Initialisieren des Chat-Receivers
+	 * 
+	 * @param connection bereits aufgebaute Connection zum Message-Broker
+	 * @param chatroom Chatraum, in dem sich der User befindet
+	 * @param username Username des Users
+	 * @throws JMSException Fehler waehrend der Kommunikation
+	 */
 	public ChatReceiver(Connection connection, String chatroom, String username) throws JMSException {
 		
-		// Create the session
+		// Session erstellen
 		this.session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
 		Destination destination = session.createTopic(chatroom);
 		
-		//Create the consumer
+		// Consumer erstellen zum Empfangen der Nachrichten
 		this.consumer = session.createConsumer(destination);
 		
 		
