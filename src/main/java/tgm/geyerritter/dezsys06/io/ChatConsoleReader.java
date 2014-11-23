@@ -50,9 +50,13 @@ public class ChatConsoleReader implements ConsoleReader {
 		scanner.close();
 	}
 
+	/**
+	 * @see ConsoleReader#proccessCommand(String, String[])
+	 */
 	public void proccessCommand(String commandLabel, String[] args) {
 
 		// Das Label ist immer das erste "Wort", der Rest sind die Argumente
+		// Kommando "vsdbchat"
 		if (commandLabel.equalsIgnoreCase("vsdbchat")) {
 			if (args.length > 2) {
 				String ip = args[0];
@@ -79,6 +83,7 @@ public class ChatConsoleReader implements ConsoleReader {
 
 				Configuration conf = new ExplicitConfiguration(ActiveMQConnection.DEFAULT_USER, ActiveMQConnection.DEFAULT_PASSWORD, ip, chatroom);
 				try {
+					// Mit den daten eine Verbindung aufbauen
 					this.controller = new Networking(user, conf);
 					logger.info("Connection established.");
 				} catch (JMSException e) {
@@ -88,22 +93,30 @@ public class ChatConsoleReader implements ConsoleReader {
 			} else {
 				logger.info("Not enough arguments. Correct usage: vsdbchat <ip_message_broker> <benutzername> <chatroom>");
 			}
+		// Kommando "mail"
 		} else if (commandLabel.equalsIgnoreCase("mail")) {
 			if (args.length > 1) {
 				
+				// Die nachricht aus den Argumenten filtern und zusammenbauen
 				String msg = StringUtils.join(Arrays.asList(Arrays.copyOfRange(args, 1, args.length)), " ");
 
+				// Mail senden
 				this.controller.mail(args[0], msg);
 				logger.info("Mail sent!");
 			} else {
 				logger.info("Not enough arguments. Correct usage: mail <benutzername> <nachricht>");
 			}
+		// Kommando "mailbox"
 		} else if (commandLabel.equalsIgnoreCase("mailbox")) {
+			// Printet alle fuer diesen Client vorgesehenen Mails in die Konsole
 			this.controller.getMails();
+		// Kommando "exit"
 		} else if (commandLabel.equalsIgnoreCase("exit")) {
 			logger.info("Closing connection...");
 			this.controller.halt();
+		// Kommando "help"
 		} else if (commandLabel.equalsIgnoreCase("help")) {
+			// Kommandos fuer den derzeitigen stand der Verbindung ausgeben
 			if (this.controller == null) {
 				logger.info("Enter \"vsdbchat <ip_message_broker> <benutzername> <chatroom>\" to connect to a server");
 			} else {
@@ -112,6 +125,7 @@ public class ChatConsoleReader implements ConsoleReader {
 				logger.info("Enter \"exit\" to exit");
 				logger.info("Just write anything to broadcast");
 			}
+		// Ansonsten wird die Nachricht als Text aufgefasst
 		} else {
 			if (this.controller != null) {
 				List<String> text = new ArrayList<String>();
