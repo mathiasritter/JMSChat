@@ -90,7 +90,8 @@ public class ChatConsoleReader implements ConsoleReader {
 			}
 		} else if (commandLabel.equalsIgnoreCase("mail")) {
 			if (args.length > 1) {
-				String msg = StringUtils.join(Arrays.asList(args), " ");
+				
+				String msg = StringUtils.join(Arrays.asList(Arrays.copyOfRange(args, 1, args.length)), " ");
 
 				this.controller.mail(args[0], msg);
 				logger.info("Mail sent!");
