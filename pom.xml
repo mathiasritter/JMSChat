@@ -48,11 +48,19 @@
 			</resource>
 			<resource>
 				<filtering>false</filtering>
+				<directory>src/main/resources</directory>
+			</resource>
+			<resource>
+				<filtering>false</filtering>
+				<directory>src/test/java</directory>
+			</resource>
+			<resource>
+				<filtering>false</filtering>
 				<directory>files/</directory>
 				<includes>
 					<include>**/*.pdf</include>
 					<include>**/*.asta</include>
-					<include>log.txt</include>
+					<include>**/*.log</include>
 				</includes>
 			</resource>
 		</resources>
