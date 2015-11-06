@@ -6,6 +6,8 @@ import org.junit.runners.Suite.SuiteClasses;
 
 /**
  * Ausfuehren aller Testfaelle
+ *
+ * <h3>ACTIVE MQ MUSS AUSGEFUHERT WERDEN!!!!</h3>
  * 
  * @author mritter
  * @author sgeyer
