@@ -9,6 +9,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
@@ -80,33 +81,13 @@ public class ConnectWindow extends Application implements Initializable, GUIPrin
     public void initialize(URL location, ResourceBundle resources) {
 
         connect.setOnAction((event) -> {
+            this.connect();
+        });
 
-            String line = "vsdbchat " + ip.getText() + " " + username.getText() + " " +  chatroom.getText();
-            String label = "";
-            String[] args = line.split(" ");
-            if (args.length > 0) {
-                label = args[0];
-                args = Arrays.copyOfRange(args, 1, args.length);
+        chatroom.setOnKeyPressed((event) -> {
+            if (event.getCode().equals(KeyCode.ENTER)) {
+                this.connect();
             }
-
-            this.chatConsoleReader.proccessCommand(label, args);
-
-            if (this.chatConsoleReader.connectionEstablished()) {
-                try {
-                    ChatWindow chatWindow = new ChatWindow();
-                    chatWindow.start(new Stage());
-                    this.primaryStage.close();
-                    Logger.getRootLogger().removeAppender(this.appender);
-
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-
-            }
-
-
         });
 
     }
@@ -116,5 +97,32 @@ public class ConnectWindow extends Application implements Initializable, GUIPrin
 
         out.appendText(text + "\n");
 
+    }
+
+    private void connect() {
+        String line = "vsdbchat " + ip.getText() + " " + username.getText() + " " +  chatroom.getText();
+        String label = "";
+        String[] args = line.split(" ");
+        if (args.length > 0) {
+            label = args[0];
+            args = Arrays.copyOfRange(args, 1, args.length);
+        }
+
+        this.chatConsoleReader.proccessCommand(label, args);
+
+        if (this.chatConsoleReader.connectionEstablished()) {
+            try {
+                ChatWindow chatWindow = new ChatWindow();
+                chatWindow.start(new Stage());
+                this.primaryStage.close();
+                Logger.getRootLogger().removeAppender(this.appender);
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+        }
     }
 }
