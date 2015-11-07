@@ -38,7 +38,7 @@ public class ChatWindow extends Application implements Initializable, GUIPrinter
 
     private ChatConsoleReader chatConsoleReader;
 
-    public ChatWindow() throws IOException {
+    public ChatWindow() {
 
         Logger.getRootLogger().addAppender(new GUIAppender(this));
 

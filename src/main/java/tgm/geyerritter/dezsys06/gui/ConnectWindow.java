@@ -86,7 +86,15 @@ public class ConnectWindow extends Application implements Initializable, GUIPrin
             this.chatConsoleReader.proccessCommand(label, args);
 
             if (this.chatConsoleReader.connectionEstablished()) {
-                System.out.println("Verbindung hergestellt");
+                try {
+                    ChatWindow chatWindow = new ChatWindow();
+                    chatWindow.start(new Stage());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
             }
 
 
