@@ -1,6 +1,7 @@
 package tgm.geyerritter.dezsys06.gui;
 
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.embed.swing.JFXPanel;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -70,6 +71,10 @@ public class ConnectWindow extends Application implements Initializable, GUIPrin
         Scene scene = new Scene(root);
 
         primaryStage.setResizable(false);
+        primaryStage.setOnCloseRequest(e -> {
+            Platform.exit();
+            System.exit(0);
+        });
         primaryStage.setTitle("Connect to Message Broker");
         primaryStage.setScene(scene);
         primaryStage.show();

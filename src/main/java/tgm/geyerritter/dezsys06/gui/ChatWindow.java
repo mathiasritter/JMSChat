@@ -1,6 +1,7 @@
 package tgm.geyerritter.dezsys06.gui;
 
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -63,6 +64,12 @@ public class ChatWindow extends Application implements Initializable, GUIPrinter
         Scene scene = new Scene(this.root);
 
         primaryStage.setResizable(false);
+        primaryStage.setOnCloseRequest(e -> {
+            String empty[] = null;
+            this.chatConsoleReader.proccessCommand("exit", empty);
+            Platform.exit();
+            System.exit(0);
+        });
         primaryStage.setTitle("Chat: " + ChatConsoleReader.getInstance().getController().getChatroom() + "@" + ChatConsoleReader.getInstance().getController().getIP());
         primaryStage.setScene(scene);
         primaryStage.show();
