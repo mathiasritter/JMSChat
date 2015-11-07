@@ -69,6 +69,7 @@ public class ConnectWindow extends Application implements Initializable, GUIPrin
 
         Scene scene = new Scene(root);
 
+        primaryStage.setResizable(false);
         primaryStage.setTitle("Connect to Message Broker");
         primaryStage.setScene(scene);
         primaryStage.show();

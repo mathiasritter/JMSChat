@@ -62,6 +62,7 @@ public class ChatWindow extends Application implements Initializable, GUIPrinter
 
         Scene scene = new Scene(this.root);
 
+        primaryStage.setResizable(false);
         primaryStage.setTitle("Chat: " + ChatConsoleReader.getInstance().getController().getChatroom() + "@" + ChatConsoleReader.getInstance().getController().getIP());
         primaryStage.setScene(scene);
         primaryStage.show();

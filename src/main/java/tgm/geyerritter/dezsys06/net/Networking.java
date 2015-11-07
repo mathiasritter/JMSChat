@@ -106,7 +106,10 @@ public class Networking implements NetworkController {
 	}
 
     public String getIP() {
-        return this.configuration.getHostAddress();
+        return this.configuration.getHostAddress().substring(
+                this.configuration.getHostAddress().lastIndexOf("/") + 1,
+                this.configuration.getHostAddress().length()
+        );
     }
 
     public String getChatroom() {
