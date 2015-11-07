@@ -10,17 +10,18 @@ import java.util.List;
  */
 public class GUIAppender extends AppenderSkeleton {
 
-    private List<GUIPrinter> windows;
+    private GUIPrinter guiPrinter;
 
-    public GUIAppender(List<GUIPrinter> chatWindows) {
-        this.windows = chatWindows;
+    public GUIAppender(GUIPrinter guiPrinter) {
+
+        this.guiPrinter = guiPrinter;
     }
 
     @Override
     protected void append(LoggingEvent loggingEvent) {
 
-        for (GUIPrinter guiPrinter : windows)
-            guiPrinter.print(loggingEvent.getRenderedMessage());
+       this.guiPrinter.print(loggingEvent.getRenderedMessage());
+
     }
 
     @Override

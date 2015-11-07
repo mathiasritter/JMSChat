@@ -29,6 +29,19 @@ public class ChatConsoleReader implements ConsoleReader {
 
 	private NetworkController controller;
 
+
+    private static ChatConsoleReader instance;
+
+    private ChatConsoleReader() {
+
+    }
+
+    public static synchronized ChatConsoleReader getInstance() {
+        if (instance == null)
+            instance = new ChatConsoleReader();
+        return instance;
+    }
+
 	public void run() {
 
 		logger.info("Please connect to message broker. For more information type 'help'");

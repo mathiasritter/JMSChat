@@ -52,7 +52,7 @@ public class TestChatConsoleReader {
 	 */
 	@Before
 	public void init() {
-		this.chat = new ChatConsoleReader();
+		this.chat = ChatConsoleReader.getInstance();
 		testAppender = new TestAppender();
 		Logger.getRootLogger().addAppender(testAppender);
 	}
