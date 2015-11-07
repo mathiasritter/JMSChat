@@ -49,4 +49,8 @@ public interface NetworkController {
 	 * 
 	 */
 	public void getMails();
+
+    public String getIP();
+
+    public String getChatroom();
 }
