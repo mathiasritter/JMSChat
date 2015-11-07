@@ -90,7 +90,7 @@ public class ChatWindow extends Application implements Initializable, GUIPrinter
     @Override
     public void print(String text) {
 
-        showMessages.appendText(text);
+        showMessages.appendText(text + "\n");
 
     }
 }
