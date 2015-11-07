@@ -1,5 +1,9 @@
 package tgm.geyerritter.dezsys06;
 
+import javafx.application.Application;
+import javafx.embed.swing.JFXPanel;
+import javafx.stage.Stage;
+import tgm.geyerritter.dezsys06.gui.ConnectWindow;
 import tgm.geyerritter.dezsys06.io.ChatConsoleReader;
 
 /**
@@ -22,9 +26,9 @@ public class Main {
 		new Thread(new ChatConsoleReader()).start();
 
         // Start GUI
-        //new Thread()
+        ConnectWindow.launch(ConnectWindow.class);
 
-		
-	}
+
+    }
 
 }
