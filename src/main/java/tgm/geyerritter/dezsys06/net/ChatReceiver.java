@@ -9,6 +9,7 @@ import javax.jms.MessageConsumer;
 import javax.jms.ObjectMessage;
 import javax.jms.Session;
 
+import javafx.application.Platform;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
@@ -77,9 +78,11 @@ public class ChatReceiver implements Receiver {
 					MessageData md = (MessageData) message.getObject();
 					
 					String timeStamp = new SimpleDateFormat("[dd.MM.yyyy - HH:mm:ss]").format(md.getCreationDate());
-					
-					logger.info(timeStamp + " " + md.getSender()
-							+ ": " + md.getContent());
+                    Platform.runLater(() -> {
+                        logger.info(timeStamp + " " + md.getSender()
+                                + ": " + md.getContent());
+                    });
+
 
 					//Empfang bestaetigen
 					message.acknowledge();

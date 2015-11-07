@@ -12,6 +12,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import org.apache.log4j.Appender;
 import org.apache.log4j.Logger;
 import tgm.geyerritter.dezsys06.io.ChatConsoleReader;
 
@@ -38,12 +39,15 @@ public class ConnectWindow extends Application implements Initializable, GUIPrin
     private TextArea out;
 
     private ChatConsoleReader chatConsoleReader;
+    private Appender appender;
+    private Stage primaryStage;
 
 
     public ConnectWindow() {
 
         // Konsolennachrichten abfangen
-        Logger.getRootLogger().addAppender(new GUIAppender(this));
+        this.appender = new GUIAppender(this);
+        Logger.getRootLogger().addAppender(appender);
 
         FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("gui/connectwindow.fxml"));
         loader.setController(this);
@@ -68,6 +72,8 @@ public class ConnectWindow extends Application implements Initializable, GUIPrin
         primaryStage.setScene(scene);
         primaryStage.show();
 
+        this.primaryStage = primaryStage;
+
     }
 
     @Override
@@ -89,6 +95,9 @@ public class ConnectWindow extends Application implements Initializable, GUIPrin
                 try {
                     ChatWindow chatWindow = new ChatWindow();
                     chatWindow.start(new Stage());
+                    this.primaryStage.close();
+                    Logger.getRootLogger().removeAppender(this.appender);
+
                 } catch (IOException e) {
                     e.printStackTrace();
                 } catch (Exception e) {
