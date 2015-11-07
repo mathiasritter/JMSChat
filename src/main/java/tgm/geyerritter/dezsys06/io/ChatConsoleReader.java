@@ -158,4 +158,8 @@ public class ChatConsoleReader implements ConsoleReader {
 		this.controller = controller;
 	}
 
+    public boolean connectionEstablished() {
+        return this.controller != null;
+    }
+
 }

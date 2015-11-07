@@ -7,6 +7,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
@@ -32,6 +33,9 @@ public class ConnectWindow extends Application implements Initializable, GUIPrin
 
     @FXML
     private Button connect;
+
+    @FXML
+    private TextArea out;
 
     private ChatConsoleReader chatConsoleReader;
 
@@ -81,6 +85,10 @@ public class ConnectWindow extends Application implements Initializable, GUIPrin
 
             this.chatConsoleReader.proccessCommand(label, args);
 
+            if (this.chatConsoleReader.connectionEstablished()) {
+                System.out.println("Verbindung hergestellt");
+            }
+
 
         });
 
@@ -89,7 +97,7 @@ public class ConnectWindow extends Application implements Initializable, GUIPrin
     @Override
     public void print(String text) {
 
-        //TODO print into gui text area
+        out.appendText(text + "\n");
 
     }
 }
