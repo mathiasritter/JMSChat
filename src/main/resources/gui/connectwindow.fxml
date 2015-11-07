@@ -7,37 +7,40 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<GridPane alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="177.0" prefWidth="465.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8">
+<GridPane alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="273.0" prefWidth="469.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
   <columnConstraints>
-    <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="318.0" minWidth="10.0" prefWidth="237.0" />
-    <ColumnConstraints hgrow="SOMETIMES" maxWidth="387.0" minWidth="10.0" prefWidth="213.0" />
+      <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="318.0" minWidth="10.0" prefWidth="16.0" />
+    <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="318.0" minWidth="10.0" prefWidth="218.0" />
+    <ColumnConstraints hgrow="SOMETIMES" maxWidth="387.0" minWidth="10.0" prefWidth="222.0" />
       <ColumnConstraints hgrow="SOMETIMES" maxWidth="192.0" minWidth="10.0" prefWidth="18.0" />
   </columnConstraints>
   <rowConstraints>
       <RowConstraints maxHeight="33.0" minHeight="10.0" prefHeight="10.0" vgrow="SOMETIMES" />
     <RowConstraints maxHeight="63.0" minHeight="10.0" prefHeight="36.0" vgrow="SOMETIMES" />
-    <RowConstraints maxHeight="59.0" minHeight="10.0" prefHeight="36.0" vgrow="SOMETIMES" />
-    <RowConstraints maxHeight="59.0" minHeight="10.0" prefHeight="36.0" vgrow="SOMETIMES" />
-      <RowConstraints maxHeight="59.0" minHeight="0.0" prefHeight="14.0" vgrow="SOMETIMES" />
-      <RowConstraints maxHeight="68.0" minHeight="10.0" prefHeight="40.0" vgrow="SOMETIMES" />
+    <RowConstraints maxHeight="59.0" minHeight="10.0" prefHeight="40.0" vgrow="SOMETIMES" />
+    <RowConstraints maxHeight="62.0" minHeight="10.0" prefHeight="40.0" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="59.0" minHeight="10.0" prefHeight="35.0" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="59.0" minHeight="0.0" prefHeight="15.0" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="76.0" minHeight="10.0" prefHeight="71.0" vgrow="SOMETIMES" />
       <RowConstraints maxHeight="67.0" minHeight="8.0" prefHeight="9.0" vgrow="SOMETIMES" />
   </rowConstraints>
    <children>
-      <Label alignment="CENTER" text="ip address of message broker" GridPane.rowIndex="1" />
-      <Label text="username" GridPane.rowIndex="2" />
-      <Label text="chatroom" GridPane.rowIndex="3" />
-      <TextField fx:id="ip" prefHeight="27.0" prefWidth="276.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+      <Label alignment="CENTER" text="ip address of message broker" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+      <Label text="username" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+      <Label text="chatroom" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+      <TextField fx:id="ip" prefHeight="27.0" prefWidth="276.0" GridPane.columnIndex="2" GridPane.rowIndex="1">
          <GridPane.margin>
             <Insets />
          </GridPane.margin>
       </TextField>
-      <TextField fx:id="username" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-      <TextField fx:id="chatroom" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-      <Line endX="200.0" startX="-200.0" GridPane.columnSpan="2" GridPane.rowIndex="4" GridPane.valignment="TOP">
+      <TextField fx:id="username" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+      <TextField fx:id="chatroom" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+      <Line endX="200.0" startX="-200.0" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="5" GridPane.valignment="TOP">
          <GridPane.margin>
             <Insets top="5.0" />
          </GridPane.margin>
       </Line>
-      <Button fx:id="connect" mnemonicParsing="false" text="connect" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="5" GridPane.valignment="CENTER" />
+      <Button fx:id="connect" mnemonicParsing="false" text="connect" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="CENTER" />
+      <TextArea fx:id="out" editable="false" prefHeight="29.0" prefWidth="388.0" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="6" />
    </children>
 </GridPane>
