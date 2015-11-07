@@ -9,6 +9,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
@@ -71,18 +72,13 @@ public class ChatWindow extends Application implements Initializable, GUIPrinter
     public void initialize(URL location, ResourceBundle resources) {
 
         sendMessage.setOnAction((event) -> {
+            this.sendMessage();
+        });
 
-            String line = writeMessage.getText();
-            String label = "";
-            String[] args = line.split(" ");
-            if (args.length > 0) {
-                label = args[0];
-                args = Arrays.copyOfRange(args, 1, args.length);
+        writeMessage.setOnKeyPressed((event) -> {
+            if (event.getCode().equals(KeyCode.ENTER)) {
+                this.sendMessage();
             }
-
-            this.chatConsoleReader.proccessCommand(label, args);
-
-
         });
 
     }
@@ -91,6 +87,22 @@ public class ChatWindow extends Application implements Initializable, GUIPrinter
     public void print(String text) {
 
         showMessages.appendText(text + "\n");
+
+    }
+
+    private void sendMessage() {
+
+        String line = writeMessage.getText();
+        String label = "";
+        String[] args = line.split(" ");
+        if (args.length > 0) {
+            label = args[0];
+            args = Arrays.copyOfRange(args, 1, args.length);
+        }
+
+        this.chatConsoleReader.proccessCommand(label, args);
+
+        this.writeMessage.clear();
 
     }
 }
