@@ -10,7 +10,7 @@ import java.util.ResourceBundle;
 /**
  * TODO class comment
  */
-public class ChatWindow extends Application implements Initializable {
+public class ChatWindow extends Application implements Initializable, GUIPrinter {
 
     public ChatWindow() {
 
@@ -23,6 +23,11 @@ public class ChatWindow extends Application implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+
+    }
+
+    @Override
+    public void print(String text) {
 
     }
 }

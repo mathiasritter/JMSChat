@@ -21,6 +21,9 @@ public class Main {
 		// Chat in einem neuen Thread starten
 		new Thread(new ChatConsoleReader()).start();
 
+        // Start GUI
+        //new Thread()
+
 		
 	}
 

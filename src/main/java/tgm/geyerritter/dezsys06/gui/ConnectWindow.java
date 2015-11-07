@@ -10,7 +10,7 @@ import java.util.ResourceBundle;
 /**
  * TODO class comment
  */
-public class ConnectWindow extends Application implements Initializable {
+public class ConnectWindow extends Application implements Initializable, GUIPrinter {
 
     public ConnectWindow() {
 
@@ -23,6 +23,11 @@ public class ConnectWindow extends Application implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+
+    }
+
+    @Override
+    public void print(String text) {
 
     }
 }
