@@ -41,6 +41,6 @@
          </GridPane.margin>
       </Line>
       <Button fx:id="connect" mnemonicParsing="false" text="connect" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="CENTER" />
-      <TextArea fx:id="out" editable="false" prefHeight="29.0" prefWidth="388.0" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="6" />
+      <TextArea fx:id="out" editable="false" prefHeight="29.0" prefWidth="388.0" wrapText="true" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="6" />
    </children>
 </GridPane>

@@ -97,7 +97,7 @@ public class ConnectWindow extends Application implements Initializable, GUIPrin
     @Override
     public void print(String text) {
 
-        out.appendText(text);
+        out.appendText(text + "\n");
 
     }
 }
