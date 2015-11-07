@@ -8,6 +8,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.TabPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
@@ -27,16 +28,16 @@ import java.util.ResourceBundle;
  */
 public class ChatWindow extends Application implements Initializable, GUIPrinter {
 
-    private Pane root;
+    private TabPane root;
 
     @FXML
     private TextArea showMessages;
 
     @FXML
-    private TextField writeMessage;
+    private TextField writeMessage, writePrivateMessage, receiver;
 
     @FXML
-    private Button sendMessage;
+    private Button sendMessage, query, sendPrivateMessage;
 
     private ChatConsoleReader chatConsoleReader;
 
@@ -50,7 +51,7 @@ public class ChatWindow extends Application implements Initializable, GUIPrinter
         this.chatConsoleReader = ChatConsoleReader.getInstance();
 
         try {
-            this.root = (GridPane) loader.load();
+            this.root = (TabPane) loader.load();
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();

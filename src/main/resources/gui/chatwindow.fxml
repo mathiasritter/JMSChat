@@ -1,25 +1,73 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.shape.*?>
 <?import java.lang.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
-  <columnConstraints>
-      <ColumnConstraints hgrow="SOMETIMES" maxWidth="600.0" minWidth="10.0" prefWidth="24.0" />
-    <ColumnConstraints hgrow="SOMETIMES" maxWidth="600.0" minWidth="10.0" prefWidth="477.0" />
-      <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="600.0" minWidth="10.0" prefWidth="77.0" />
-      <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="600.0" minWidth="10.0" prefWidth="26.0" />
-  </columnConstraints>
-  <rowConstraints>
-      <RowConstraints maxHeight="307.0" minHeight="10.0" prefHeight="22.0" vgrow="SOMETIMES" />
-    <RowConstraints maxHeight="351.0" minHeight="10.0" prefHeight="336.0" vgrow="SOMETIMES" />
-    <RowConstraints maxHeight="128.0" minHeight="10.0" prefHeight="47.0" vgrow="SOMETIMES" />
-      <RowConstraints maxHeight="128.0" minHeight="4.0" prefHeight="19.0" vgrow="SOMETIMES" />
-  </rowConstraints>
+
+<GridPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <columnConstraints>
+      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+   </columnConstraints>
+   <rowConstraints>
+      <RowConstraints maxHeight="380.0" minHeight="10.0" prefHeight="374.0" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="425.0" minHeight="10.0" prefHeight="89.0" vgrow="SOMETIMES" />
+   </rowConstraints>
    <children>
-      <Button fx:id="sendMessage" mnemonicParsing="false" text="Send" GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.rowIndex="2" />
-      <TextField fx:id="writeMessage" prefWidth="526.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-      <TextArea fx:id="showMessages" editable="false" prefHeight="330.0" prefWidth="526.0" wrapText="true" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="1" />
+      <TabPane GridPane.rowIndex="1">
+         <tabs>
+            <Tab closable="false" text="Public Chat">
+               <content>
+                  <GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="38.0" prefWidth="603.0">
+                    <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="600.0" minWidth="10.0" prefWidth="24.0" />
+                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="600.0" minWidth="10.0" prefWidth="477.0" />
+                        <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="600.0" minWidth="10.0" prefWidth="77.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                      <RowConstraints maxHeight="128.0" minHeight="10.0" prefHeight="47.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                     <children>
+                        <Button fx:id="sendMessage" mnemonicParsing="false" text="Send" GridPane.columnIndex="2" GridPane.halignment="CENTER" />
+                        <TextField fx:id="writeMessage" prefWidth="526.0" GridPane.columnIndex="1" />
+                     </children>
+                  </GridPane>
+               </content>
+            </Tab>
+            <Tab closable="false" text="Private Chat">
+               <content>
+                  <GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="51.0" prefWidth="598.0">
+                     <children>
+                        <Button fx:id="sendPrivateMessage" mnemonicParsing="false" text="send" GridPane.columnIndex="6" GridPane.halignment="RIGHT" />
+                        <TextField fx:id="writePrivateMessage" prefWidth="526.0" GridPane.columnIndex="2" />
+                        <Label text="message" GridPane.columnIndex="1" />
+                        <Label text="receiver" GridPane.columnIndex="4" />
+                        <TextField fx:id="receiver" GridPane.columnIndex="5" />
+                        <Line endX="12.0" rotate="-90.0" startX="-12.0" GridPane.columnIndex="7" />
+                        <Button fx:id="query" mnemonicParsing="false" text="query" GridPane.columnIndex="8" />
+                     </children>
+                     <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="600.0" minWidth="10.0" prefWidth="19.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="600.0" minWidth="10.0" prefWidth="61.0" />
+                        <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="600.0" minWidth="10.0" prefWidth="199.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="600.0" minWidth="10.0" prefWidth="11.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="600.0" minWidth="10.0" prefWidth="55.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="600.0" minWidth="10.0" prefWidth="102.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="600.0" minWidth="10.0" prefWidth="56.0" />
+                        <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="600.0" minWidth="10.0" prefWidth="23.0" />
+                        <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="600.0" minWidth="10.0" prefWidth="59.0" />
+                        <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="600.0" minWidth="10.0" prefWidth="21.0" />
+                     </columnConstraints>
+                     <rowConstraints>
+                        <RowConstraints maxHeight="128.0" minHeight="10.0" prefHeight="47.0" vgrow="SOMETIMES" />
+                     </rowConstraints>
+                  </GridPane>
+               </content>
+            </Tab>
+         </tabs>
+      </TabPane>
+      <TextArea fx:id="showMessages" editable="false" prefHeight="379.0" prefWidth="613.0" wrapText="true" GridPane.columnSpan="2" />
    </children>
 </GridPane>
