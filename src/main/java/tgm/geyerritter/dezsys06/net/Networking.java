@@ -23,6 +23,8 @@ public class Networking implements NetworkController {
 	private Sender sender;
 
 	private Connection connection;
+
+    private Configuration configuration;
 	
 	public Networking(String username, Configuration conf) throws JMSException {
 		
@@ -36,6 +38,8 @@ public class Networking implements NetworkController {
 	 * @see NetworkController#init(Configuration)
 	 */
 	public void init(Configuration conf) throws JMSException {
+
+        this.configuration = conf;
 		
 		ConnectionFactory connectionFactory = new ActiveMQConnectionFactory(
 				conf.getUser(), conf.getPassword(), conf.getHostAddress());
@@ -100,5 +104,13 @@ public class Networking implements NetworkController {
 			e.printStackTrace();
 		}
 	}
+
+    public String getIP() {
+        return this.configuration.getHostAddress();
+    }
+
+    public String getChatroom() {
+        return this.configuration.getSystemName();
+    }
 
 }
