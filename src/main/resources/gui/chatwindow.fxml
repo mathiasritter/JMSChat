@@ -5,10 +5,8 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-
 <GridPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <columnConstraints>
-      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
       <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
    </columnConstraints>
    <rowConstraints>
@@ -20,7 +18,7 @@
          <tabs>
             <Tab closable="false" text="Public Chat">
                <content>
-                  <GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="38.0" prefWidth="603.0">
+                  <GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="54.0" prefWidth="603.0">
                     <columnConstraints>
                         <ColumnConstraints hgrow="SOMETIMES" maxWidth="600.0" minWidth="10.0" prefWidth="24.0" />
                       <ColumnConstraints hgrow="SOMETIMES" maxWidth="600.0" minWidth="10.0" prefWidth="477.0" />
@@ -31,7 +29,7 @@
                     </rowConstraints>
                      <children>
                         <Button fx:id="sendMessage" mnemonicParsing="false" text="Send" GridPane.columnIndex="2" GridPane.halignment="CENTER" />
-                        <TextField fx:id="writeMessage" prefWidth="526.0" GridPane.columnIndex="1" />
+                        <TextField fx:id="writeMessage" prefHeight="22.0" prefWidth="485.0" GridPane.columnIndex="1" />
                      </children>
                   </GridPane>
                </content>
