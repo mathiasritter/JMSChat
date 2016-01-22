@@ -80,15 +80,31 @@ public class ChatWindow extends Application implements Initializable, GUIPrinter
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-        sendMessage.setOnAction((event) -> {
+        this.sendMessage.setOnAction((event) -> {
             this.sendMessage();
         });
 
-        writeMessage.setOnKeyPressed((event) -> {
+        this.writeMessage.setOnKeyPressed((event) -> {
             if (event.getCode().equals(KeyCode.ENTER)) {
                 this.sendMessage();
             }
         });
+
+        this.sendPrivateMessage.setOnAction((event) -> {
+            this.sendPrivateMessage();
+        });
+
+        this.query.setOnAction((event) -> {
+            this.queryPrivateMessages();
+        });
+
+        this.receiver.setOnKeyPressed((event) -> {
+            if (event.getCode().equals(KeyCode.ENTER)) {
+                this.sendPrivateMessage();
+            }
+        });
+
+
 
     }
 
@@ -102,10 +118,10 @@ public class ChatWindow extends Application implements Initializable, GUIPrinter
     private void sendMessage() {
 
         String line = writeMessage.getText();
+
         String label = "";
         String[] args = line.split(" ");
         if (args.length > 0) {
-            label = args[0];
             args = Arrays.copyOfRange(args, 1, args.length);
         }
 
@@ -113,5 +129,23 @@ public class ChatWindow extends Application implements Initializable, GUIPrinter
 
         this.writeMessage.clear();
 
+    }
+
+    private void sendPrivateMessage() {
+        String line = receiver.getText() + " " + writePrivateMessage.getText();
+
+        String label = "mail";
+        String[] args = line.split(" ");
+
+        this.chatConsoleReader.proccessCommand(label, args);
+
+        this.writePrivateMessage.clear();
+        this.receiver.clear();
+    }
+
+    private void queryPrivateMessages() {
+        String label = "mailbox";
+        String[] args = {};
+        this.chatConsoleReader.proccessCommand(label, args);
     }
 }
