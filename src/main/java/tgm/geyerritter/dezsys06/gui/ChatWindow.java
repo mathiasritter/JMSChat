@@ -28,7 +28,7 @@ import java.util.ResourceBundle;
  */
 public class ChatWindow extends Application implements Initializable, GUIPrinter {
 
-    private TabPane root;
+    private GridPane root;
 
     @FXML
     private TextArea showMessages;
@@ -51,7 +51,7 @@ public class ChatWindow extends Application implements Initializable, GUIPrinter
         this.chatConsoleReader = ChatConsoleReader.getInstance();
 
         try {
-            this.root = (TabPane) loader.load();
+            this.root = (GridPane) loader.load();
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
