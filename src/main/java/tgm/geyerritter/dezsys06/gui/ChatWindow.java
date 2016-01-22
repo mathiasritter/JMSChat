@@ -121,9 +121,6 @@ public class ChatWindow extends Application implements Initializable, GUIPrinter
 
         String label = "";
         String[] args = line.split(" ");
-        if (args.length > 0) {
-            args = Arrays.copyOfRange(args, 1, args.length);
-        }
 
         this.chatConsoleReader.proccessCommand(label, args);
 
