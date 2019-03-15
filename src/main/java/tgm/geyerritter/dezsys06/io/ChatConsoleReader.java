@@ -1,21 +1,19 @@
 package tgm.geyerritter.dezsys06.io;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Scanner;
-
-import javax.jms.JMSException;
-
 import org.apache.activemq.ActiveMQConnection;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
-
 import tgm.geyerritter.dezsys06.data.Configuration;
 import tgm.geyerritter.dezsys06.data.ExplicitConfiguration;
 import tgm.geyerritter.dezsys06.net.NetworkController;
 import tgm.geyerritter.dezsys06.net.Networking;
+
+import javax.jms.JMSException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Scanner;
 
 /**
  * Diese Klasse verarbeitet die Eingaben des Users in der Konsole

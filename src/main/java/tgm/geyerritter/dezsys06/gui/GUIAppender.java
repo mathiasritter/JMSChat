@@ -3,8 +3,6 @@ package tgm.geyerritter.dezsys06.gui;
 import org.apache.log4j.AppenderSkeleton;
 import org.apache.log4j.spi.LoggingEvent;
 
-import java.util.List;
-
 /**
  * Created by Mathias on 07.11.15.
  */

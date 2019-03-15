@@ -2,18 +2,15 @@ package tgm.geyerritter.dezsys06.gui;
 
 import javafx.application.Application;
 import javafx.application.Platform;
-import javafx.embed.swing.JFXPanel;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.TabPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import org.apache.log4j.Appender;
 import org.apache.log4j.Logger;

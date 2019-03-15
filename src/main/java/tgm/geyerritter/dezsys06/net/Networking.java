@@ -1,12 +1,11 @@
 package tgm.geyerritter.dezsys06.net;
 
-import javax.jms.Connection;
-import javax.jms.ConnectionFactory;
-import javax.jms.JMSException;
-
 import org.apache.activemq.ActiveMQConnectionFactory;
-
 import tgm.geyerritter.dezsys06.data.Configuration;
+
+import javax.jms.Connection;
+import javax.jms.JMSException;
+import java.util.List;
 
 /**
  * 
@@ -41,8 +40,10 @@ public class Networking implements NetworkController {
 
         this.configuration = conf;
 		
-		ConnectionFactory connectionFactory = new ActiveMQConnectionFactory(
+		ActiveMQConnectionFactory connectionFactory = new ActiveMQConnectionFactory(
 				conf.getUser(), conf.getPassword(), conf.getHostAddress());
+
+		connectionFactory.setTrustedPackages(List.of("tgm.geyerritter.dezsys06.data", "java.util"));
 		
 		//Connection aufbauen
 		this.connection = connectionFactory.createConnection();

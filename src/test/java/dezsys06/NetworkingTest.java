@@ -1,9 +1,5 @@
 package dezsys06;
 
-import static org.junit.Assert.*;
-
-import javax.jms.JMSException;
-
 import org.apache.activemq.ActiveMQConnection;
 import org.apache.log4j.Logger;
 import org.junit.Before;
@@ -11,11 +7,15 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.contrib.java.lang.system.Assertion;
 import org.junit.contrib.java.lang.system.ExpectedSystemExit;
-
 import tgm.geyerritter.dezsys06.data.ExplicitConfiguration;
 import tgm.geyerritter.dezsys06.data.StaticConfiguration;
 import tgm.geyerritter.dezsys06.net.NetworkController;
 import tgm.geyerritter.dezsys06.net.Networking;
+
+import javax.jms.JMSException;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class NetworkingTest {
 

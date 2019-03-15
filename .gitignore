@@ -6,3 +6,4 @@ dependency-reduced-pom.xml
 dezsys06.iml
 .classpath
 .project
+activemq-data

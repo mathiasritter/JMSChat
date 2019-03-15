@@ -1,19 +1,12 @@
 package tgm.geyerritter.dezsys06.net;
 
-import java.text.SimpleDateFormat;
-
-import javax.jms.Connection;
-import javax.jms.Destination;
-import javax.jms.JMSException;
-import javax.jms.MessageConsumer;
-import javax.jms.ObjectMessage;
-import javax.jms.Session;
-
 import javafx.application.Platform;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
-
 import tgm.geyerritter.dezsys06.data.MessageData;
+
+import javax.jms.*;
+import java.text.SimpleDateFormat;
 
 /**
  * Implementierung von {@link Receiver}

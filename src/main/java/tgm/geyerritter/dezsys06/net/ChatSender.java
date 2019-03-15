@@ -1,15 +1,9 @@
 package tgm.geyerritter.dezsys06.net;
 
-import javax.jms.Connection;
-import javax.jms.DeliveryMode;
-import javax.jms.Destination;
-import javax.jms.JMSException;
-import javax.jms.MessageProducer;
-import javax.jms.ObjectMessage;
-import javax.jms.Session;
-
 import tgm.geyerritter.dezsys06.data.ChatMessage;
 import tgm.geyerritter.dezsys06.data.MessageData;
+
+import javax.jms.*;
 
 /**
  * Implementierung von {@link Sender}

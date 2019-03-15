@@ -1,8 +1,8 @@
 package tgm.geyerritter.dezsys06.net;
 
-import javax.jms.JMSException;
-
 import tgm.geyerritter.dezsys06.data.Configuration;
+
+import javax.jms.JMSException;
 
 /**
  * Diese Klasse dient dazu, die von anderen Klassen bereitgestellten Daten
