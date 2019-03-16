@@ -2,7 +2,6 @@ package dezsys06;
 
 import de.saxsys.javafx.test.JfxRunner;
 import org.apache.activemq.ActiveMQConnection;
-import org.apache.activemq.broker.BrokerService;
 import org.apache.log4j.Logger;
 import org.junit.*;
 import org.junit.contrib.java.lang.system.Assertion;

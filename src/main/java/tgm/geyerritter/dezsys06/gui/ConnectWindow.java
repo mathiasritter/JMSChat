@@ -10,7 +10,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
-import javafx.scene.layout.GridPane;
+import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import org.apache.log4j.Appender;
 import org.apache.log4j.Logger;
@@ -18,7 +18,6 @@ import tgm.geyerritter.dezsys06.io.ChatConsoleReader;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.Arrays;
 import java.util.ResourceBundle;
 
 /**
@@ -27,7 +26,7 @@ import java.util.ResourceBundle;
 public class ConnectWindow extends Application implements Initializable, GUIPrinter {
 
     @FXML
-    private GridPane root;
+    private BorderPane root;
 
     @FXML
     private TextField ip, chatroom, username;
@@ -55,9 +54,8 @@ public class ConnectWindow extends Application implements Initializable, GUIPrin
         this.chatConsoleReader = ChatConsoleReader.getInstance();
 
         try {
-            this.root = (GridPane) loader.load();
+            this.root = loader.load();
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
 
@@ -68,7 +66,6 @@ public class ConnectWindow extends Application implements Initializable, GUIPrin
 
         Scene scene = new Scene(root);
 
-        primaryStage.setResizable(false);
         primaryStage.setOnCloseRequest(e -> {
             Platform.exit();
             System.exit(0);
@@ -76,6 +73,8 @@ public class ConnectWindow extends Application implements Initializable, GUIPrin
         primaryStage.setTitle("Connect to Message Broker");
         primaryStage.setScene(scene);
         primaryStage.show();
+
+        this.ip.requestFocus();
 
         this.primaryStage = primaryStage;
 

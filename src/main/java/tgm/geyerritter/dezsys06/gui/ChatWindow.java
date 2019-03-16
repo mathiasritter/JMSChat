@@ -12,7 +12,6 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import org.apache.log4j.Logger;
 import tgm.geyerritter.dezsys06.io.ChatConsoleReader;
@@ -20,7 +19,6 @@ import tgm.geyerritter.dezsys06.io.ChatConsoleReader;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
-import java.util.Timer;
 
 /**
  * TODO class comment
