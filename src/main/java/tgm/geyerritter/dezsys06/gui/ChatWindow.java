@@ -10,6 +10,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import org.apache.log4j.Logger;
@@ -24,7 +25,7 @@ import java.util.ResourceBundle;
  */
 public class ChatWindow extends Application implements Initializable, GUIPrinter {
 
-    private GridPane root;
+    private BorderPane root;
 
     @FXML
     private TextArea showMessages;
@@ -47,7 +48,7 @@ public class ChatWindow extends Application implements Initializable, GUIPrinter
         this.chatConsoleReader = ChatConsoleReader.getInstance();
 
         try {
-            this.root = (GridPane) loader.load();
+            this.root = loader.load();
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -60,7 +61,7 @@ public class ChatWindow extends Application implements Initializable, GUIPrinter
 
         Scene scene = new Scene(this.root);
 
-        primaryStage.setResizable(false);
+        //primaryStage.setResizable(false);
         primaryStage.setOnCloseRequest(e -> {
             String empty[] = null;
             this.chatConsoleReader.proccessCommand("exit", empty);
