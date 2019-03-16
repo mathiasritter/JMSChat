@@ -17,9 +17,7 @@ public class GUIAppender extends AppenderSkeleton {
 
     @Override
     protected void append(LoggingEvent loggingEvent) {
-
        this.guiPrinter.print(loggingEvent.getRenderedMessage());
-
     }
 
     @Override

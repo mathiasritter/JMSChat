@@ -56,7 +56,14 @@ public class ChatConsoleReader implements ConsoleReader {
 			}
 
 			proccessCommand(label, args);
-		}
+
+            try {
+                // anti spam
+                Thread.sleep(500);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
 
 		scanner.close();
 	}
@@ -89,20 +96,23 @@ public class ChatConsoleReader implements ConsoleReader {
 				}
 
 				// Protokolle angeben falls es der User nicht getan hat
-				if (!ip.startsWith("failover://tcp://"))
-					ip = "failover://tcp://" + ip;
+				if (!ip.startsWith("tcp://"))
+					ip = "tcp://" + ip;
+
+				// set max reconnect attempts
+				ip = "failover:(" + ip + ")?maxReconnectAttempts=6&warnAfterReconnectAttempts=2";
 
 				Configuration conf = new ExplicitConfiguration(ActiveMQConnection.DEFAULT_USER, ActiveMQConnection.DEFAULT_PASSWORD, ip, chatroom);
 				try {
 					// Mit den daten eine Verbindung aufbauen
 					this.controller = new Networking(user, conf);
-					logger.info("Connection established.");
+					logger.info("Connection established");
 				} catch (JMSException e) {
 					logger.error("Error while connecting to Broker");
 				}
 
 			} else {
-				logger.info("Not enough arguments. Correct usage: vsdbchat <ip_message_broker> <benutzername> <chatroom>");
+				logger.info("Not enough arguments. Correct usage: vsdbchat <ip_message_broker> <username> <chatroom>");
 			}
 
 		// Kommando "mail"
@@ -116,7 +126,7 @@ public class ChatConsoleReader implements ConsoleReader {
 				this.controller.mail(args[0], msg);
 				logger.info("Mail sent!");
 			} else {
-				logger.info("Not enough arguments. Correct usage: mail <benutzername> <nachricht>");
+				logger.info("Not enough arguments. Correct usage: mail <username> <message>");
 			}
 
 		// Kommando "mailbox"
@@ -136,7 +146,7 @@ public class ChatConsoleReader implements ConsoleReader {
 		} else if (commandLabel.equalsIgnoreCase("help")) {
 			// Kommandos fuer den derzeitigen stand der Verbindung ausgeben
 			if (this.controller == null) {
-				logger.info("Enter \"vsdbchat <ip_message_broker> <benutzername> <chatroom>\" to connect to a server");
+				logger.info("Enter \"vsdbchat <ip_message_broker> <username> <chatroom>\" to connect to a server");
 			} else {
 				logger.info("Enter \"mail <receiver> <message>\" to send a mail to someone");
 				logger.info("Enter \"mailbox\" to fetch all your mails");

@@ -43,6 +43,7 @@ public class Networking implements NetworkController {
 		ActiveMQConnectionFactory connectionFactory = new ActiveMQConnectionFactory(
 				conf.getUser(), conf.getPassword(), conf.getHostAddress());
 
+
 		connectionFactory.setTrustedPackages(List.of("tgm.geyerritter.dezsys06.data", "java.util"));
 		
 		//Connection aufbauen
@@ -108,8 +109,8 @@ public class Networking implements NetworkController {
 
     public String getIP() {
         return this.configuration.getHostAddress().substring(
-                this.configuration.getHostAddress().lastIndexOf("/") + 1,
-                this.configuration.getHostAddress().length()
+                this.configuration.getHostAddress().indexOf("//") + 2,
+                this.configuration.getHostAddress().lastIndexOf(")")
         );
     }
 

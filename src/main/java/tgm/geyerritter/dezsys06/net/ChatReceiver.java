@@ -71,11 +71,7 @@ public class ChatReceiver implements Receiver {
 					MessageData md = (MessageData) message.getObject();
 					
 					String timeStamp = new SimpleDateFormat("[dd.MM.yyyy - HH:mm:ss]").format(md.getCreationDate());
-                    Platform.runLater(() -> {
-                        logger.info(timeStamp + " " + md.getSender()
-                                + ": " + md.getContent());
-                    });
-
+                    logger.info(timeStamp + " " + md.getSender() + ": " + md.getContent());
 
 					//Empfang bestaetigen
 					message.acknowledge();

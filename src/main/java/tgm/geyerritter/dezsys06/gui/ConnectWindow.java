@@ -104,29 +104,34 @@ public class ConnectWindow extends Application implements Initializable, GUIPrin
     }
 
     private void connect() {
-        String line = "vsdbchat " + ip.getText() + " " + username.getText() + " " +  chatroom.getText();
-        String label = "";
+        String line = ip.getText() + " " + username.getText() + " " +  chatroom.getText();
+        String label = "vsdbchat";
         String[] args = line.split(" ");
-        if (args.length > 0) {
-            label = args[0];
-            args = Arrays.copyOfRange(args, 1, args.length);
-        }
 
-        this.chatConsoleReader.proccessCommand(label, args);
+        this.connect.setDisable(true);
 
-        if (this.chatConsoleReader.connectionEstablished()) {
-            try {
-                ChatWindow chatWindow = new ChatWindow();
-                chatWindow.start(new Stage());
-                this.primaryStage.close();
-                Logger.getRootLogger().removeAppender(this.appender);
+        new Thread(() -> {
 
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (Exception e) {
-                e.printStackTrace();
+            this.chatConsoleReader.proccessCommand(label, args);
+
+            if (this.chatConsoleReader.connectionEstablished()) {
+                try {
+                    ChatWindow chatWindow = new ChatWindow();
+
+                    Platform.runLater(() -> {
+                        chatWindow.start(new Stage());
+                        this.primaryStage.close();
+                    });
+                    Logger.getRootLogger().removeAppender(this.appender);
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
             }
 
-        }
+        }).start();
+
+
     }
 }

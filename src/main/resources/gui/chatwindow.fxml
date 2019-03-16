@@ -13,9 +13,9 @@
 
 <BorderPane prefHeight="481.0" prefWidth="626.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <bottom>
-      <TabPane BorderPane.alignment="CENTER">
+      <TabPane fx:id="tabPane" BorderPane.alignment="CENTER">
          <tabs>
-            <Tab closable="false" text="Public Chat">
+            <Tab id="publicChat" closable="false" text="Public Chat">
                <content>
                   <BorderPane>
                      <right>
@@ -35,7 +35,7 @@
                   </BorderPane>
                </content>
             </Tab>
-            <Tab closable="false" text="Private Chat">
+            <Tab id="privateChat" closable="false" text="Private Chat">
                <content>
                   <BorderPane>
                      <center>
