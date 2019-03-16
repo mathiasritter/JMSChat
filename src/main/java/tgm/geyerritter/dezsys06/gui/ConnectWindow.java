@@ -63,9 +63,10 @@ public class ConnectWindow extends Application implements Initializable, GUIPrin
     }
 
     @Override
-    public void start(Stage primaryStage) throws Exception {
+    public void start(Stage primaryStage) {
 
         Scene scene = new Scene(root);
+        scene.getStylesheets().add("org/kordamp/bootstrapfx/bootstrapfx.css");
 
         primaryStage.setOnCloseRequest(e -> {
             Platform.exit();

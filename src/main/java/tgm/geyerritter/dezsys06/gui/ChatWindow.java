@@ -14,6 +14,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import org.apache.log4j.Logger;
+import tgm.geyerritter.dezsys06.Broker;
 import tgm.geyerritter.dezsys06.io.ChatConsoleReader;
 
 import java.io.IOException;
@@ -63,6 +64,7 @@ public class ChatWindow extends Application implements Initializable, GUIPrinter
     public void start(Stage primaryStage) {
 
         Scene scene = new Scene(this.root);
+        scene.getStylesheets().add("org/kordamp/bootstrapfx/bootstrapfx.css");
 
         primaryStage.setOnCloseRequest(e -> {
             String empty[] = null;
