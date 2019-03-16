@@ -118,13 +118,17 @@ public class ChatConsoleReader implements ConsoleReader {
 		// Kommando "mail"
 		} else if (commandLabel.equalsIgnoreCase("mail")) {
 			if (args.length > 1) {
-				
 				// Die nachricht aus den Argumenten filtern und zusammenbauen
-				String msg = StringUtils.join(Arrays.asList(Arrays.copyOfRange(args, 1, args.length)), " ");
+                String message = StringUtils.join(Arrays.asList(Arrays.copyOfRange(args, 1, args.length)), " ");
 
-				// Mail senden
-				this.controller.mail(args[0], msg);
-				logger.info("Mail sent!");
+                if (message.length() > 1000) {
+                    logger.error("Cannot send message longer than 1000 characters");
+                } else {
+                    // Mail senden
+                    this.controller.mail(args[0], message);
+                    logger.info("Mail sent!");
+                }
+
 			} else {
 				logger.info("Not enough arguments. Correct usage: mail <username> <message>");
 			}
@@ -157,10 +161,16 @@ public class ChatConsoleReader implements ConsoleReader {
 		// Ansonsten wird die Nachricht als Text aufgefasst
 		} else {
 			if (this.controller != null) {
-				List<String> text = new ArrayList<String>();
-				text.add(commandLabel);
-				text.addAll(Arrays.asList(args));
-				this.controller.broadcast(StringUtils.join(text, " "));
+
+			    // construct message
+				String message = commandLabel + " " + StringUtils.join(Arrays.asList(args), " ");
+
+				if (message.length() > 1000) {
+				    logger.error("Cannot send message longer than 1000 characters");
+                } else {
+                    this.controller.broadcast(message);
+                }
+
 			} else {
 				logger.info("You need to connect to a server before you can chat");
 			}
