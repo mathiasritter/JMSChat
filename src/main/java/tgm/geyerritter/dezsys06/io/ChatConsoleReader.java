@@ -104,6 +104,7 @@ public class ChatConsoleReader implements ConsoleReader {
 			} else {
 				logger.info("Not enough arguments. Correct usage: vsdbchat <ip_message_broker> <benutzername> <chatroom>");
 			}
+
 		// Kommando "mail"
 		} else if (commandLabel.equalsIgnoreCase("mail")) {
 			if (args.length > 1) {
@@ -117,10 +118,12 @@ public class ChatConsoleReader implements ConsoleReader {
 			} else {
 				logger.info("Not enough arguments. Correct usage: mail <benutzername> <nachricht>");
 			}
+
 		// Kommando "mailbox"
 		} else if (commandLabel.equalsIgnoreCase("mailbox")) {
 			// Printet alle fuer diesen Client vorgesehenen Mails in die Konsole
 			this.controller.getMails();
+
 		// Kommando "exit"
 		} else if (commandLabel.equalsIgnoreCase("exit")) {
 			logger.info("Closing connection...");
@@ -128,6 +131,7 @@ public class ChatConsoleReader implements ConsoleReader {
 				this.controller.halt();
 			else
 				System.exit(0);
+
 		// Kommando "help"
 		} else if (commandLabel.equalsIgnoreCase("help")) {
 			// Kommandos fuer den derzeitigen stand der Verbindung ausgeben
@@ -139,6 +143,7 @@ public class ChatConsoleReader implements ConsoleReader {
 				logger.info("Enter \"exit\" to exit");
 				logger.info("Just write anything to broadcast");
 			}
+
 		// Ansonsten wird die Nachricht als Text aufgefasst
 		} else {
 			if (this.controller != null) {

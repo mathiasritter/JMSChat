@@ -1,12 +1,14 @@
 package dezsys06;
 
+import de.saxsys.javafx.test.JfxRunner;
 import org.apache.activemq.ActiveMQConnection;
+import org.apache.activemq.broker.BrokerService;
 import org.apache.log4j.Logger;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
+import org.junit.*;
 import org.junit.contrib.java.lang.system.Assertion;
 import org.junit.contrib.java.lang.system.ExpectedSystemExit;
+import org.junit.runner.RunWith;
+import tgm.geyerritter.dezsys06.Broker;
 import tgm.geyerritter.dezsys06.data.Configuration;
 import tgm.geyerritter.dezsys06.data.ExplicitConfiguration;
 import tgm.geyerritter.dezsys06.io.ChatConsoleReader;
@@ -23,6 +25,7 @@ import static org.junit.Assert.assertEquals;
  * @author sgeyer
  * @version 1.0
  */
+@RunWith(JfxRunner.class)
 public class TestChatConsoleReader {
 
 	private ChatConsoleReader chat;
@@ -42,6 +45,15 @@ public class TestChatConsoleReader {
 	private final String[] emptyArgs = {};
 	private final int timeout = 100;
 
+    @BeforeClass
+    public static void setupBroker() throws Exception {
+        Broker.main(new String[0]);
+    }
+
+    @AfterClass
+    public static void stopBroker() throws Exception {
+        Broker.stopBroker();
+    }
 	
 	@Rule
 	public final ExpectedSystemExit exit = ExpectedSystemExit.none();
@@ -50,29 +62,10 @@ public class TestChatConsoleReader {
 	 * Initialisieren des ChatConsoleReaders und des Appenders
 	 */
 	@Before
-	public void init() {
+	public void init() throws Exception {
 		this.chat = ChatConsoleReader.getInstance();
 		testAppender = new TestAppender();
 		Logger.getRootLogger().addAppender(testAppender);
-	}
-
-	/**
-	 * Testen, ob eine falsche Eingabe vor dem Verbinden korrekt verarbeitet wird
-	 */
-	@Test
-	public void testNotConnected1() {
-		chat.proccessCommand("Bla", emptyArgs);
-		assertEquals(notConnected, testAppender.getLog().get(0).getMessage());
-	}
-	
-	/**
-	 * Testen, ob eine falsche Eingabe vor dem Verbinden korrekt verarbeitet wird
-	 */
-	@Test
-	public void testNotConnected2() {
-		String[] args = {"Hallo", "Freunde"};
-		chat.proccessCommand("Bla", args);
-		assertEquals(notConnected, testAppender.getLog().get(0).getMessage());
 	}
 	
 	/**
@@ -122,17 +115,6 @@ public class TestChatConsoleReader {
 	}
 	
 	/**
-	 * Testen, ob nach dem Starten des Programmes eine Verbindung ohne Angabe des Ports aufgebaut werden kann
-	 */
-	@Test
-	public void testInitialized2() {
-		new Thread(chat).start();
-		String[] args = { "127.0.0.1", "testuser", "testchat" };
-		chat.proccessCommand("vsdbchat", args);
-		assertEquals(defaultPort, testAppender.getLog().get(0).getMessage());
-	}
-	
-	/**
 	 * Testen, ob nach dem Starten des Programmes eine Verbindung mit Angabe des Ports aufgebaut werden kann
 	 */
 	@Test
@@ -141,17 +123,6 @@ public class TestChatConsoleReader {
 		String[] args = { "127.0.0.1:61616", "testuser", "testchat" };
 		chat.proccessCommand("vsdbchat", args);
 		assertEquals(initialized, testAppender.getLog().get(0).getMessage());
-	}
-	
-	/**
-	 * Testen, ob nach dem Starten des Programmes eine Verbindung ohne Angabe des Ports aufgebaut werden kann
-	 */
-	@Test
-	public void testInitialized4() {
-		new Thread(chat).start();
-		String[] args = { "failover://tcp://127.0.0.1", "testuser", "testchat" };
-		chat.proccessCommand("vsdbchat", args);
-		assertEquals(defaultPort, testAppender.getLog().get(0).getMessage());
 	}
 	
 	/**
@@ -233,7 +204,5 @@ public class TestChatConsoleReader {
 		});
 		chat.proccessCommand("exit", emptyArgs);
 	}
-	
-	
 
 }

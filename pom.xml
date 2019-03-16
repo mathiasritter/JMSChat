@@ -54,6 +54,11 @@
             <artifactId>javafx-swing</artifactId>
             <version>13-ea+1</version>
         </dependency>
+        <dependency>
+            <groupId>de.saxsys</groupId>
+            <artifactId>jfx-testrunner</artifactId>
+            <version>1.2</version>
+        </dependency>
 	</dependencies>
 	<build>
 		<resources>

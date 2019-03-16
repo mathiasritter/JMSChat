@@ -1,12 +1,13 @@
 package dezsys06;
 
+import de.saxsys.javafx.test.JfxRunner;
 import org.apache.activemq.ActiveMQConnection;
 import org.apache.log4j.Logger;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
+import org.junit.*;
 import org.junit.contrib.java.lang.system.Assertion;
 import org.junit.contrib.java.lang.system.ExpectedSystemExit;
+import org.junit.runner.RunWith;
+import tgm.geyerritter.dezsys06.Broker;
 import tgm.geyerritter.dezsys06.data.ExplicitConfiguration;
 import tgm.geyerritter.dezsys06.data.StaticConfiguration;
 import tgm.geyerritter.dezsys06.net.NetworkController;
@@ -17,6 +18,7 @@ import javax.jms.JMSException;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+@RunWith(JfxRunner.class)
 public class NetworkingTest {
 
 	private TestAppender testAppender;
@@ -24,6 +26,16 @@ public class NetworkingTest {
 
 	@Rule
 	public final ExpectedSystemExit exit = ExpectedSystemExit.none();
+
+    @BeforeClass
+    public static void setupBroker() throws Exception {
+        Broker.main(new String[0]);
+    }
+
+    @AfterClass
+    public static void stopBroker() throws Exception {
+        Broker.stopBroker();
+    }
 
 	@Before
 	/**
