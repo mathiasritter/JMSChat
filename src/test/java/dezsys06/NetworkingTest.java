@@ -28,13 +28,14 @@ public class NetworkingTest {
 	public final ExpectedSystemExit exit = ExpectedSystemExit.none();
 
     @BeforeClass
-    public static void setupBroker() throws Exception {
-        Broker.main(new String[0]);
+    public static void setupBroker() {
+        if (!Broker.start())
+            throw new IllegalStateException("Broker not started");
     }
 
     @AfterClass
-    public static void stopBroker() throws Exception {
-        Broker.stopBroker();
+    public static void stopBroker() {
+        Broker.stop();
     }
 
 	@Before

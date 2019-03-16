@@ -10,25 +10,55 @@ public class Broker {
 
     private static BrokerService broker;
 
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) {
+        if (!start())
+            throw new IllegalStateException("Broker not started");
+    }
+
+    public static boolean start() {
 
         logger.info("Starting broker on port 61616 ...");
 
         broker = new BrokerService();
-        broker.addConnector("tcp://localhost:61616");
-        broker.start();
 
-        if (broker.waitUntilStarted())
-            logger.info("Broker successfully started on port 61616");
-        else
+        try {
+            broker.addConnector("tcp://localhost:61616");
+            broker.start();
+            if (broker.waitUntilStarted()) {
+                logger.info("Broker successfully started on port 61616");
+                return true;
+            }
+            else {
+                logger.error("Failed to start broker");
+                return false;
+            }
+
+        } catch (Exception e) {
             logger.error("Failed to start broker");
+            logger.error(e.getMessage());
+            return false;
+        }
+
     }
 
-    public static void stopBroker() throws Exception {
-        broker.stop();
-        broker.waitUntilStopped();
+    public static void stop() {
 
-        logger.info("Broker successfully stopped");
+        if (broker != null) {
+
+            try {
+                broker.stop();
+                broker.waitUntilStopped();
+            } catch (Exception e) {
+                logger.error("Failed to stop broker");
+                e.printStackTrace();
+            }
+
+            logger.info("Broker successfully stopped");
+        } else {
+
+            logger.error("Cannot stop broker - broker is not running");
+        }
+
     }
 
 }

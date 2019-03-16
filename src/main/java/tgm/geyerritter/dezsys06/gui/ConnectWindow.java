@@ -14,15 +14,13 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import org.apache.log4j.Appender;
 import org.apache.log4j.Logger;
+import tgm.geyerritter.dezsys06.Broker;
 import tgm.geyerritter.dezsys06.io.ChatConsoleReader;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-/**
- * TODO class comment
- */
 public class ConnectWindow extends Application implements Initializable, GUIPrinter {
 
     @FXML
@@ -33,6 +31,9 @@ public class ConnectWindow extends Application implements Initializable, GUIPrin
 
     @FXML
     private Button connect;
+
+    @FXML
+    private Button startBrokerConnect;
 
     @FXML
     private TextArea out;
@@ -84,12 +85,29 @@ public class ConnectWindow extends Application implements Initializable, GUIPrin
     public void initialize(URL location, ResourceBundle resources) {
 
         connect.setOnAction((event) -> {
-            this.connect();
+            this.connect.setDisable(true);
+            this.startBrokerConnect.setDisable(true);
+            new Thread(this::connect).start();
+        });
+
+        startBrokerConnect.setOnAction((event) -> {
+            this.connect.setDisable(true);
+            this.startBrokerConnect.setDisable(true);
+            new Thread(() -> {
+                if (Broker.start()) {
+                    if (!this.connect()) {
+                        Broker.stop();
+                    };
+                } else {
+                    this.reset();
+                }
+            }).start();
         });
 
         chatroom.setOnKeyPressed((event) -> {
             if (event.getCode().equals(KeyCode.ENTER)) {
-                this.connect();
+
+                new Thread(this::connect).start();
             }
         });
 
@@ -97,40 +115,48 @@ public class ConnectWindow extends Application implements Initializable, GUIPrin
 
     @Override
     public void print(String text) {
-
         out.appendText(text + "\n");
-
     }
 
-    private void connect() {
+    private boolean connect() {
+
+        this.connect.setDisable(true);
+        this.startBrokerConnect.setDisable(true);
+
         String line = ip.getText() + " " + username.getText() + " " +  chatroom.getText();
         String label = "vsdbchat";
         String[] args = line.split(" ");
 
-        this.connect.setDisable(true);
+        this.chatConsoleReader.proccessCommand(label, args);
 
-        new Thread(() -> {
+        if (this.chatConsoleReader.connectionEstablished()) {
 
-            this.chatConsoleReader.proccessCommand(label, args);
+            try {
+                ChatWindow chatWindow = new ChatWindow();
 
-            if (this.chatConsoleReader.connectionEstablished()) {
-                try {
-                    ChatWindow chatWindow = new ChatWindow();
+                Platform.runLater(() -> {
+                    chatWindow.start(new Stage());
+                    this.primaryStage.close();
+                });
+                Logger.getRootLogger().removeAppender(this.appender);
+                return true;
 
-                    Platform.runLater(() -> {
-                        chatWindow.start(new Stage());
-                        this.primaryStage.close();
-                    });
-                    Logger.getRootLogger().removeAppender(this.appender);
-
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-
+            } catch (Exception e) {
+                e.printStackTrace();
+                return false;
             }
 
-        }).start();
+        } else {
+            this.reset();
+            return false;
+        }
+    }
 
-
+    private void reset() {
+        Platform.runLater(() -> {
+            this.connect.setDisable(false);
+            this.startBrokerConnect.setDisable(false);
+            this.ip.requestFocus();
+        });
     }
 }
