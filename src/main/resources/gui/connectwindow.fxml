@@ -45,7 +45,7 @@
                   <TextField fx:id="chatroom" GridPane.rowIndex="2" />
                   <BorderPane GridPane.rowIndex="3">
                      <left>
-                        <Button fx:id="connect" mnemonicParsing="false" text="connect" BorderPane.alignment="CENTER" />
+                        <Button fx:id="connect" defaultButton="true" mnemonicParsing="false" text="connect" BorderPane.alignment="CENTER" />
                      </left>
                      <right>
                         <Button fx:id="startBrokerConnect" mnemonicParsing="false" text="start broker &amp; connect" BorderPane.alignment="CENTER" />
