@@ -1,5 +1,6 @@
 package tgm.geyerritter.dezsys06.net;
 
+import org.apache.activemq.ActiveMQConnection;
 import tgm.geyerritter.dezsys06.data.ChatMessage;
 import tgm.geyerritter.dezsys06.data.MessageData;
 
@@ -17,6 +18,7 @@ public class ChatSender implements Sender {
 	private MessageProducer producer;
 	private Session session;
 	private Session privateSession;
+	private ActiveMQConnection connection;
 
 	/**
 	 * Initialisierung des Senders
@@ -25,7 +27,9 @@ public class ChatSender implements Sender {
 	 * @param chatroom Chatraum, in dem sich der User befindet
 	 * @throws JMSException Fehler waehrend der Kommunikation
 	 */
-	public ChatSender(Connection connection, String chatroom) throws JMSException {
+	public ChatSender(ActiveMQConnection connection, String chatroom) throws JMSException {
+
+	    this.connection = connection;
 
 		// Session erstellen
 		this.session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);

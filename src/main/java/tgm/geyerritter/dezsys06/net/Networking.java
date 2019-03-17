@@ -1,11 +1,17 @@
 package tgm.geyerritter.dezsys06.net;
 
+import org.apache.activemq.ActiveMQConnection;
 import org.apache.activemq.ActiveMQConnectionFactory;
+import org.apache.activemq.advisory.DestinationSource;
+import org.apache.activemq.command.ActiveMQQueue;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import tgm.geyerritter.dezsys06.data.Configuration;
+import tgm.geyerritter.dezsys06.io.ChatConsoleReader;
 
-import javax.jms.Connection;
 import javax.jms.JMSException;
 import java.util.List;
+import java.util.Set;
 
 /**
  * 
@@ -18,12 +24,14 @@ public class Networking implements NetworkController {
 	
 	private String username;
 	
-	private Receiver reciever;
+	private Receiver receiver;
 	private Sender sender;
 
-	private Connection connection;
+	private ActiveMQConnection connection;
 
     private Configuration configuration;
+
+    public static final Logger logger = LogManager.getLogger(Networking.class);
 	
 	public Networking(String username, Configuration conf) throws JMSException {
 		
@@ -45,17 +53,19 @@ public class Networking implements NetworkController {
 
 
 		connectionFactory.setTrustedPackages(List.of("tgm.geyerritter.dezsys06.data", "java.util"));
-		
-		//Connection aufbauen
-		this.connection = connectionFactory.createConnection();
+
+        this.connection = (ActiveMQConnection) connectionFactory.createConnection();
 		this.connection.start();
-		
+
+        if (this.userIsOnline(this.username))
+            throw new JMSException("Username " + this.username + " is already in use. Please choose another username.");
+
 		//Receiver und Sender initialisieren
-		this.reciever = new ChatReceiver(this.connection, conf.getSystemName(), this.username);
+		this.receiver = new ChatReceiver(this.connection, conf.getSystemName(), this.username);
 		this.sender = new ChatSender(this.connection, conf.getSystemName());
 
 		//Receiver-Thread starten
-		new Thread(this.reciever).start();
+		new Thread(this.receiver).start();
 	}
 	
 	/**
@@ -64,7 +74,7 @@ public class Networking implements NetworkController {
 	public void halt() {
 		try {
 			this.sender.stop();
-			this.reciever.stop();
+			this.receiver.stop();
 			this.connection.close();
 			
 		} catch (JMSException e) {
@@ -88,9 +98,14 @@ public class Networking implements NetworkController {
 	/**
 	 * @see NetworkController#mail(String, String)
 	 */
-	public void mail(String reciever, String message) {
+	public void mail(String receiver, String message) {
 		try {
-			this.sender.mail(this.username, reciever, message);
+		    if (this.userIsOnline(receiver)) {
+                this.sender.mail(this.username, receiver, message);
+                logger.info("Mail sent!");
+            } else {
+                logger.error("Cannot send private message to user " + receiver + ". User does not exist.");
+            }
 		} catch (JMSException e) {
 			e.printStackTrace();
 		}
@@ -101,7 +116,7 @@ public class Networking implements NetworkController {
 	 */
 	public void getMails() {
 		try {
-			this.reciever.getMails(this.username);
+			this.receiver.getMails(this.username);
 		} catch (JMSException e) {
 			e.printStackTrace();
 		}
@@ -116,6 +131,22 @@ public class Networking implements NetworkController {
 
     public String getChatroom() {
         return this.configuration.getSystemName();
+    }
+
+    private boolean userIsOnline(String username) throws JMSException {
+        DestinationSource ds = connection.getDestinationSource();
+        Set<ActiveMQQueue> queues = ds.getQueues();
+
+        return queues.stream()
+                .map(q -> {
+                    try {
+                        return q.getQueueName();
+                    } catch (JMSException e) {
+                        e.printStackTrace();
+                        return "";
+                    }
+                })
+                .anyMatch(q -> q.equalsIgnoreCase(username));
     }
 
 }

@@ -162,7 +162,7 @@ public class ChatWindow extends Application implements Initializable, GUIPrinter
         String label = "mail";
         String[] args = line.split(" ");
 
-        new Thread(() -> this.chatConsoleReader.proccessCommand(label, args));
+        new Thread(() -> this.chatConsoleReader.proccessCommand(label, args)).start();
 
         this.writePrivateMessage.setText("Sending message...");
 

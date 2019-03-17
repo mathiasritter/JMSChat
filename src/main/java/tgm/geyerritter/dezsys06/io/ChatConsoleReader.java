@@ -107,6 +107,7 @@ public class ChatConsoleReader implements ConsoleReader {
 					logger.info("Connection established");
 				} catch (JMSException e) {
 					logger.error("Error while connecting to Broker");
+					logger.error(e.getMessage());
 				}
 
 			} else {
@@ -124,7 +125,6 @@ public class ChatConsoleReader implements ConsoleReader {
                 } else {
                     // Mail senden
                     this.controller.mail(args[0], message);
-                    logger.info("Mail sent!");
                 }
 
 			} else {

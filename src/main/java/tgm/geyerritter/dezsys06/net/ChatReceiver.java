@@ -1,5 +1,7 @@
 package tgm.geyerritter.dezsys06.net;
 
+import org.apache.activemq.ActiveMQConnection;
+import org.apache.activemq.command.ActiveMQDestination;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import tgm.geyerritter.dezsys06.data.MessageData;
@@ -18,10 +20,12 @@ public class ChatReceiver implements Receiver {
 
 	
 	private boolean run;
+	private ActiveMQConnection connection;
 	private Session session;
 	private Session privateSession;
 	private MessageConsumer consumer;
 	private MessageConsumer privateConsumer;
+	private ActiveMQDestination privateDestination;
 	private static final Logger logger = LogManager
 			.getLogger(ChatReceiver.class);
 	
@@ -33,26 +37,27 @@ public class ChatReceiver implements Receiver {
 	 * @param username Username des Users
 	 * @throws JMSException Fehler waehrend der Kommunikation
 	 */
-	public ChatReceiver(Connection connection, String chatroom, String username) throws JMSException {
-		
+	public ChatReceiver(ActiveMQConnection connection, String chatroom, String username) throws JMSException {
+
+	    this.connection = connection;
+
 		// Session erstellen
 		this.session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
 		Destination destination = session.createTopic(chatroom);
 		
 		// Consumer erstellen zum Empfangen der Nachrichten
 		this.consumer = session.createConsumer(destination);
-		
-		
+
 		/* Privatchat */
 		
 		//Private Session initialisieren
 		this.privateSession = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
 		
 		//Destination mit Queue des Users wird erstellt
-		Destination privateDestination = privateSession.createQueue(username);
+		this.privateDestination = (ActiveMQDestination) privateSession.createQueue(username);
 						
 		//Consumer mit der oben definierten Destination wird erstellt
-		this.privateConsumer = privateSession.createConsumer(privateDestination);
+		this.privateConsumer = privateSession.createConsumer(this.privateDestination);
 
 		this.run = true;
 		
@@ -124,6 +129,8 @@ public class ChatReceiver implements Receiver {
 	public void stop() throws JMSException {
 		this.run = false;
 		this.consumer.close();
+		this.privateConsumer.close();
+		this.connection.destroyDestination(this.privateDestination);
 		this.session.close();
 	}
 
